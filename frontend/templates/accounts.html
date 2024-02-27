@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuildMe-SignUp</title>
+
+    <!-- Style sheet -->
+    <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/accounts.css')}}">
+
+</head>
+<body>
+    <header>
+        <div class="images" id="logo"><a href="{{ url_for('pub_views.landing_page') }}">GuildMe</a><sup><sup><sup>TM</sup></sup></sup></div>
+    </header>
+    <div class="view-container">
+        <section class="img-section">
+            <div class="images" id="pic1"></div>
+        </section>
+        <section class="form-section">
+            <div class="error-display">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <div class="form-container">
+                <div class="form-head">
+                    {% if page == 'signup' %}
+                    <div id="heading">Sign Up</div>
+                    {% elif page == 'login' %}
+                    <div id="heading">Login</div>
+                    {% endif %}
+                    <div class="images" id="pic2"></div>
+                </div>
+                <!-- Sign up form -->
+                {% if page == 'signup' %}
+                <form id="form" action="" method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="input-box">
+                            {{ form.full_name.label }}<br>
+                            {{ form.full_name(size=25) }}
+                            {% for error in form.full_name.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-box">
+                            {{ form.email.label }}<br>
+                            {{ form.email(size=65) }}
+                            {% for error in form.email.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="input-box">
+                            {{ form.username.label }}<br>
+                            {{ form.username(size=65) }}
+                            {% for error in form.username.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-box">
+                            {{ form.password.label }}<br>
+                            {{ form.password(size=128) }}
+                            {% for error in form.password.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="input-box">
+                            {{ form.confirm_password.label }}<br>
+                            {{ form.confirm_password(size=128) }}
+                            {% for error in form.confirm_password.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div id="signup">
+                        {{ form.submit()}}
+                    </div>
+                    <!-- <a href="{{ url_for('pub_views.landing_page') }}" style="color: #FFB84C; font-weight: 800;">Home</a> -->
+                    <a href="{{ url_for('pub_views.login') }}" style="color: #FFB84C;">Already signed up? click here to login</a>
+                </form>
+                {% endif %}
+                {% if page == 'login' %}
+                <form id="form" action="" method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="input-box">
+                            {{ form.email.label }}<br>
+                            {{ form.email(size=65) }}
+                            {% for error in form.email.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-box">
+                            {{ form.password.label }}<br>
+                            {{ form.password(size=128) }}
+                            {% for error in form.password.errors %}
+                            <span style="color: whitesmoke; font-size: 12px;"><br>[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div id="signup">
+                        {{ form.submit()}}
+                    </div>
+                    <!-- <a href="{{ url_for('pub_views.landing_page') }}" style="color: #FFB84C; font-weight: 800;">Home</a> -->
+                    <a href="{{ url_for('pub_views.signup') }}" style="color: #FFB84C;">Have no account yet? click here to sign up</a>
+                </form>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</body>
+</html>
