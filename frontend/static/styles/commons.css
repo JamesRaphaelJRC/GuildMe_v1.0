@@ -1,0 +1,361 @@
+body {
+    background-image: url(../images/33266619_papercut_white_world_map.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    font-family: Poppins;
+}
+
+
+.friend-section,
+.chat-section,
+.map-section {
+    flex: 1; /* Allow the sections to grow and shrink based on content */
+    overflow: hidden; /* Prevent content overflow from affecting other sections */
+}
+
+.images {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header {
+    margin: 0;
+    height: 8vh;
+    /* background-color: #0d0c22; */
+    /* background-color: #293daf; */
+    background-color: #052b31;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    /* background-color: #293daf; */
+    background-color: #052b31;
+    height: 3vh;
+    text-align: center;
+    color: whitesmoke;
+    font-weight: 800;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#logo {
+    width: 10%;
+    height: 80%;
+    color: white;
+    font-weight: 900;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: 2%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-box {
+    width: 62%;
+    /* border: 1px solid white; */
+    display: flex;
+    color: white;
+}
+
+.below-header {
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid green; */
+    height: 4.5vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+#add-friend-box {
+    width: 25%;
+    /* border: 1px solid green; */
+    /* justify-content: end; */
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    /* margin-left: 5%; */
+    padding: 2px;
+}
+
+.label-btn {
+    background-color: red;
+    width: 120px;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    /* font-weight: 600; */
+}
+
+#add-icon {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    /* border: 1px solid white; */
+    background-image: url(../images/add-friend-48.png);
+}
+
+#add-icon:hover {
+    background-color: green;
+}
+
+#add-friend-input {
+    width: 200px;
+}
+
+#far-right {
+    /* border: 1px solid white; */
+    width: 20%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    gap: 10%;
+}
+
+#location-thumb {
+    height: 25px;
+    width: 25px;
+    background-image: url(../images/location-off.gif);
+}
+
+/* Style for slider container */
+/* .slider-container {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+} */
+
+/* Style for hidden checkbox */
+/* .slider-checkbox {
+    display: none;
+} */
+
+/* Style for slider track */
+/* .slider-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #D43A02;
+    border-radius: 34px;
+    transition: 0.4s;
+} */
+
+/* Style for slider thumb (circle) */
+/* .slider-thumb {
+    position: absolute;
+    top: 0;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.4s;
+    margin-top: 2px;
+}
+
+Change background color of track when checkbox is checked
+.slider-checkbox:checked + .slider-track {
+    background-color: #0CB91A;
+}
+
+Move thumb to the right when checkbox is checked
+.slider-checkbox:checked + .slider-track + .slider-thumb {
+    transform: translateX(26px);
+} */
+
+.not-and-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    /* border: 1px solid wheat; */
+}
+
+#notification {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+    /* border: 1px solid white; */
+    background-image: url(../images/icons8-notification-96.png);
+    /* background-image: url(../images/icons8-bell.gif); */
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    /* border: 1px solid white; */
+    border-radius: 50%;
+    /* background-image: url(../images/icons8-avatar-96.png); */
+}
+
+#logout-select {
+    width: 20px;
+    height: 20px;
+    background-color: inherit;
+    border: hidden;
+    /* border-radius: 50%; */
+    color: white;
+    font-weight: 800;
+}
+
+#logout {
+    background-color: #823f99;
+}
+/* .expand {
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/expand-arrow-48.png);
+} */
+
+.flash-msgs {
+    width: 100%;
+    height: 4vh;
+    /* border: 1px solid yellow; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#flash-text {
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.section-container {
+    /* height: 82vh; */
+    /* border: 1px solid red; */
+    height: 83vh;
+    display: flex;
+    flex-direction: row;
+    gap: 0.2%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.notification-box,
+.upload-container {
+    /* border: 1px solid black; */
+    position: fixed;
+    top: 10vh; /* header height + 2 */
+    left: 75%;
+    width: 250px;
+    max-height: 40%;
+    padding: 0px 10px 15px 10px;
+    background-color: #b8f3d5;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    z-index: 1000; /* Ensure the box appears above other elements */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    display: none;
+    overflow-y: scroll;
+}
+
+.upload-container {
+    display: none;
+}
+
+input[type="submit"], #upload {
+    margin-left: 70%;
+}
+
+.panel-box {
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+    height: 40px;
+    gap: 2%;
+    cursor: pointer;
+    position: fixed;
+    background-color: #0bcacd;
+    /* color: rgb(240, 236, 236); */
+}
+
+.all-notifications {
+    /* overflow-y: scroll; */
+    /* height: 200px; */
+    gap: 20px;
+    margin-top: 50px; /* give space after the panel-box*/
+    /* border: 1px solid red; */
+}
+
+.mid-btn {
+    background-color: rgb(145, 134, 245);
+    width: 110px;
+    color: black;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 11px;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.gen-message {
+    /* border: 1px solid black; */
+    width: 90%;
+    padding: 2%;
+    border-bottom: 1px solid gray;
+    font-size: 12px;
+    color: black;
+    cursor: pointer;
+    overflow-y: scroll;
+}
+
+.friend-req-box {
+    /* border: 1px solid black; */
+    /* height: 70px; */
+    flex-direction: column;
+    margin-bottom: 10px;
+    /* border-bottom: 1px solid gray; */
+    font-size: 12px;
+    color: rgb(80, 74, 74);
+}
+
+.upper {
+    /* border: 1px solid wheat; */
+    height: 65%;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    gap: 5%;
+}
+
+.friend-info {
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.lower {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    height: 35%;
+}
+
+.lower .mid-btn {
+    font-size: 10px;
+    padding: 0px;
+    height: 100%;
+    color: black;
+}
+
+.decline {
+    background-color: red;
+}
+.accept {
+    background-color: green;
+}

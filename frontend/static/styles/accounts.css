@@ -1,0 +1,121 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: #052b31;
+}
+
+.images {
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#logo {
+    width: 10%;
+    height: 10%;
+    color: white;
+    font-weight: 900;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-left: 2%;
+    display: flex;
+    align-items: center;
+}
+
+#logo a {
+    text-decoration: none;
+    color: white;
+}
+
+.view-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20%;
+    /* align-items: center; */
+}
+
+.img-section {
+    height: 60vh;
+    /* border: 1px solid white; */
+}
+
+#pic1 {
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    background-image: url(../images/tracknobg.png);
+    /* border: 1px solid white; */
+}
+
+.error-display {
+    color: white;
+}
+
+.form-section {
+    height: 60vh;
+    width: 30vw;
+    /* border: 1px solid white; */
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    margin-top: 8%;
+}
+
+.form-container {
+    padding: 10px;
+    width: 90%;
+    height: 100%;
+    /* border: 1px solid white; */
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    color: aliceblue;
+    /* background-color: #0e3b42; */
+    gap: 10px;
+}
+
+.form-head {
+    width: 100%;
+    height: 20%;
+    /* border: 1px solid white; */
+    display: flex;
+    flex-direction: row;
+}
+
+#heading {
+    /* border: 1px solid white; */
+    width: 40%;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px;
+}
+
+#pic2 {
+    height: 100%;
+    width: 60%;
+    /* border: 1px solid red; */
+    background-image: url(../images/worldmap-removebg-preview.png);
+}
+
+.row {
+    /* width: 200px; */
+    /* border: 1px solid salmon; */
+    /* margin-top: 5px; */
+}
+
+.input-box {
+    width: 300px;
+    /* border: 1px solid red; */
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    height: 20px;
+}
+
+#signup, input[type="submit"] {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    height: 40px;
+    width: 70px;
+    font-weight: 700;
+}
