@@ -1,0 +1,95 @@
+.friend-section {
+    /* height: auto; */
+    /* max-height: 50vh; */
+    width: 20%;
+    /* background-color: #293daf; */
+    background-color: rgb(5, 43, 49);
+    min-height: 80vh;
+    border-radius: 10px;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    /* border: 1px solid red; */
+}
+
+#friendlabel {
+    font-weight: 800;
+    color: whitesmoke;
+    text-align: center;
+    /* border: 1px solid black; */
+    margin-bottom: 10px;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+#searchbox {
+    padding: 10px;
+    border: 1px solid #3bcaee;
+    width: 80%;
+    background-color: #3bcaee;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 10px;
+    align-self: center;
+    margin-bottom: 20px;
+}
+
+#searchbox:focus {
+    outline: none;
+    border-color: #3498db; /* Change the color when focused, adjust as needed */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a subtle box-shadow */
+  }
+
+.friendlist {
+    /* height: auto; */
+    overflow-y: scroll;
+    /* border: 1px solid brown; */
+}
+.friend-container {
+    height: 50px;
+    width: 100%;
+    border-top: 1px solid rgb(128, 128, 128, 0.5);
+    gap: 10px;
+    display: flex;
+    background-color: #898c4c;
+    margin-bottom: 2px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend-container:hover {
+    background-color: #4b4d26;
+}
+
+.img-thumbnail {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    /* border: 1px solid blue; */
+    /* background-image: url(../images/new.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.name {
+    height: 80%;
+    width: 60%;
+    /* border: 1px solid gray; */
+    text-align: center;
+    display: flex;
+    font-size: 14px;
+    font-weight: 700;
+    align-items: center;
+    color: white;
+}
+
+.unread-chats {
+    height: 40%;
+    width: 10%;
+    border-radius: 50%;
+    background-color: red;
+}
