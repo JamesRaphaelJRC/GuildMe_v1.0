@@ -1,0 +1,27 @@
+{
+  "name": "guildme_v1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/JamesRaphaelJRC/GuildMe_v1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesRaphaelJRC/GuildMe_v1/issues"
+  },
+  "homepage": "https://github.com/JamesRaphaelJRC/GuildMe_v1#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1"
+  }
+}
