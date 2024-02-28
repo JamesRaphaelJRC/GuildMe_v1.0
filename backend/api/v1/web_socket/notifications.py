@@ -154,7 +154,6 @@ def allowed_track(data):
     user_msg = f"You allowed {friend_name} to track you"
     user_notif = redis_client.new_notification(friend.id, user.id, user_msg,
                                                'general')
-    print(user_notif)
     if user_notif:
         emit('alert_user', room=user.id)
 
@@ -169,7 +168,6 @@ def disallowed_track(data):
     message = f"You disallowed {friend_name} from tracking you"
     notif = redis_client.new_notification(friend.id, user.id, message,
                                           'general')
-    print(notif)
     if notif:
         emit('alert_user', room=user.id)
 
@@ -184,7 +182,6 @@ def verify_then_delete(data):
     friend_id = db.find_user_by(username=friend).id
 
     status = AUTH.confirm_and_delete(user_id, friend_id)
-    print(status)
 
 
 @socket_io.on('send error message')

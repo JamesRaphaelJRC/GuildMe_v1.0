@@ -36,7 +36,7 @@ def signup():
     if form.validate_on_submit():
         data = {
             'full_name': form.full_name.data,
-            'email': form.email.data,
+            'email': form.email.data.lower(),
             'username': form.username.data,
             'password': form.password.data
         }
@@ -57,7 +57,7 @@ def login():
         data = request.get_json()
         if data is None:
             return jsonify({'error': 'Incorrect Username or Password'}), 401
-        email = data.get('email')
+        email = data.get('email').lower()
         password = data.get('password')
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
@@ -77,9 +77,10 @@ def login():
     else:
         form = LoginForm()
         if form.validate_on_submit():
+            email = form.email.data.lower()
             if AUTH.is_valid_login(
-                    form.email.data, form.password.data):
-                user = AUTH.get_obj('User', form.email.data)
+                    email, form.password.data):
+                user = AUTH.get_obj('User', email)
 
                 login_user(user, remember=form.remember_me)
 

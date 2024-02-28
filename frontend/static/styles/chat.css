@@ -66,6 +66,7 @@
     width: 25px;
     border-radius: 50%;
     background-image: url(../images/compass.png);
+    cursor: pointer;
 }
 
 .chats {

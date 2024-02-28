@@ -22,7 +22,7 @@ $(document).ready(() => {
         const generalNotifications = resp.data;
         const generalNotificationDiv = $('.gen-msgs');
         const genMessage = $('.gen-message');
-        const notificationBox = $('.notification-box');
+        // const notificationBox = $('.notification-box');
 
         if (Object.keys(generalNotifications).length === 0) {
           genMessage.text('You have no notification yet');
@@ -119,7 +119,8 @@ $(document).ready(() => {
 
   // Handle actions when user clicks on the notification bell icon
   $('#notification').on('click', (event) => {
-    $('.upload-container').hide();
+    $('.pprofile-container').hide();
+    $('.profile-container').hide();
     Helpers.stopNotificationBell();
     $('.notification-box').show();
     event.stopPropagation();
@@ -164,22 +165,35 @@ $(document).ready(() => {
   });
 
   $('#profile-pic').on('click', (event) => {
-    $('.upload-container').show();
+    $('.profile-container').show();
     $('.notification-box').hide();
     event.stopPropagation();
 
-    // Closes the upload-container
+    $('#closePopup').on('click', () => {
+      $('.profile-container').hide();
+    });
+    // Closes the profile-container
     $(document).on('click', (event) => {
-      const uploadContainer = $('.upload-container')[0];
-      const browseBtn = $('#browse')[0]; // Get the raw DOM element
-      const uploadBtn = $('#upload')[0]; // Get the raw DOM element
+      const profileContainer = $('.profile-container')[0];
+      const locationUpdateicon = $('#location-stat')[0]; // Get the raw DOM element
+      const uploadBtn = $('#new-avatar')[0]; // Get the raw DOM element
       // Check if the target is not #add-icon, its descendant, or #add-friend-input
-      if (!browseBtn.contains(event.target)
+      if (!locationUpdateicon.contains(event.target)
           && !uploadBtn.contains(event.target)
-          && !uploadContainer.contains(event.target)
+          && !profileContainer.contains(event.target)
       ) {
-        $('.upload-container').hide();
+        $('.profile-container').hide();
       }
+    });
+
+    $('#new-avatar').on('click', () => {
+      // $('.upload-box').show();
+      uploadBox = $('.upload-box');
+      uploadBox.show();
+
+      $('#cancel').on('click', () => {
+        uploadBox.hide();
+      });
     });
   });
 

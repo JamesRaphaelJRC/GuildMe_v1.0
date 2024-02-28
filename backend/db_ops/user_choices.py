@@ -75,6 +75,7 @@ class Choice:
         ''' Adds a user's id and location to a dictionary of allowed tracks
             of a valid friend, enabling friend to track the user.
             allowed_tracks is a dict of friends a user is allowed to track
+            and adds the friend to the tracking_me dictionary of the user
         Raise:
             ValueError if user or friend does not exists
         '''
@@ -83,25 +84,56 @@ class Choice:
 
         user, friend = AUTH.is_valid_user_and_friend(user_id, friend_id)
         friend_allowed_tracks = friend.allowed_tracks
+
+        # check if user is already in the dictionary
         if user_id in friend_allowed_tracks:
             return True
-        friend_allowed_tracks.update({user_id: user.location})
+
+        user_data = {
+            "username": user.username,
+            "location": user.location,
+            "avatar": user.avatar,
+        }
+        friend_allowed_tracks[user_id] = user_data
+
         self._db.update_user(friend_id, allowed_tracks=friend_allowed_tracks)
+
+        friend_data = {
+            "username": friend.username,
+            "avatar": friend.avatar
+        }
+
+        users_tracking_me = user.tracking_me
+        users_tracking_me[friend_id] = friend_data
+
+        self._db.update_user(user_id, tracking_me=users_tracking_me)
+
         return True
 
     def remove_track_access(self, user_id: str, friend_id: str) -> bool:
         ''' Removes track access by removing user from friend allowed_tracks
         disabling friend from tracking the user
+        Also removes friend from user's tracking_me dict
+        Return:
+            True on success, False otherwise
         '''
         if not AUTH.is_a_valid_friend(user_id, friend_id):
             return False
 
         user, friend = AUTH.is_valid_user_and_friend(user_id, friend_id)
         friend_allowed_tracks = friend.allowed_tracks
+
         if user.id not in friend_allowed_tracks:
             return False
         del friend_allowed_tracks[user_id]
         self._db.update_user(friend_id, allowed_tracks=friend_allowed_tracks)
+
+        # remove friend from user's tracking me dictionary
+        users_tracking_me = user.tracking_me
+        del users_tracking_me[friend_id]
+
+        self._db.update_user(user_id, tracking_me=users_tracking_me)
+
         return True
 
     def create_conversation(self, user_id: str, friend_id: str) -> str:

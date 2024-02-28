@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/friend_section.css')}}">
     <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/chat.css')}}">
     <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/map.css')}}">
+    <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/profile.css')}}">
 
     <!-- Link to socketio -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
@@ -91,16 +92,62 @@
             </div>
         </div>
     </div>
-    <div class="upload-container">
-        <h4 style="color: #FFB84C;">Upload your avatar</h4>
-        <form action="{{ url_for('user_views.upload_file') }}" method=post enctype=multipart/form-data>
-            <input id="browse" type=file name=file>
-            <input id="upload" type=submit value=Upload>
-        </form>
+    <div class="profile-container">
+        <span id="closePopup" class="close-popup">&times;</span>
+        <div class="user-info">
+            <div class="images avatar-mid">
+                {% if user.avatar %}
+                <img class="images avatar-mid" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
+                {% else %}
+                <img class="images avatar-mid" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}">
+                {% endif %}
+                <span id="new-avatar" class="images"></span>
+            </div>
+            <div id="intro">
+                <h3 class="bookline">{{ user.full_name }}</h3>
+                <h4 class="fade bookline">@{{ user.username }}</h4>
+                <h5 class="bookline red">{{ user.email }}</h5>
+                <h5 class="bookline">Current location status &nbsp;&nbsp;<span class="images" id="location-stat">&nbsp;&nbsp;&nbsp;&nbsp;</span></h5>
+            </div>
+        </div>
+        <div class="bookline"></div>
+        <div class="locale-and-track-info" id="i-track">
+            <h5 class="line-heading">Friends who can see my location</h5>
+            <div class="i-track-disp-cont">
+                {% if user.tracking_me | length > 0 %}
+                {% for friend in user.tracking_me.values() %}
+                <div class="mini-box">
+                    <img class="images avatar" src="{{ url_for('user_views.static', filename=friend.avatar) }}" alt="User Avatar">
+                    <div class="who-tracks-me">{{ friend.username }}</div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="fade">You have permitted no one to view your location</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="locale-and-track-info" id="i-track">
+            <h5 class="line-heading">Friends I can track</h5>
+            <div class="i-track-disp-cont">
+                {% for friend in user.allowed_tracks.values() %}
+                <div class="mini-box">
+                    <img class="images avatar" src="{{ url_for('user_views.static', filename=friend.avatar) }}" alt="User Avatar">
+                    <div class="who-tracks-me">{{ friend.username }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="upload-box" id="upload-container">
+            <div id="form-caption" style="color: #FFB84C;">Upload your avatar</div>
+            <form action="{{ url_for('user_views.upload_file') }}" method=post enctype=multipart/form-data>
+                <input id="browse" type=file name=file>
+                <input id="upload" type=submit value=Upload>
+            </form>
+            <button id="cancel">cancel</button>
+        </div>
     </div>
     <div class="below-header">
         <div id="add-friend-box">
-            <!-- <label class="label-btn">new friend</label> -->
             <div class="images" id="add-icon" title="Add a friend"></div>
             <input id="add-friend-input" type="text" placeholder="username/email" style="display: none;">
         </div>

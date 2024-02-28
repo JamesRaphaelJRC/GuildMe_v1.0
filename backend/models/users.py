@@ -20,6 +20,7 @@ class User(BaseModel, UserMixin):
         self.avatar = kwargs.get('avatar', None)
         self.friends = kwargs.get('friends', {})
         self.allowed_tracks = kwargs.get('allowed_tracks', {})
+        self.tracking_me = kwargs.get('tracking_me', {})
         self.location = self.set_location(kwargs.get('location'))
         self.session_id = kwargs.get('session_id', None)
 

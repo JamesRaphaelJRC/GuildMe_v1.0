@@ -16,12 +16,17 @@ $(document).ready(() => {
   function createMap() {
     legend.show();
 
-    if (!map) {
+    if (!map && userLatLong) {
       map = L.map('map', { zoomControl: false }).setView([userLatLong[0], userLatLong[1]], 13);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
       }).addTo(map);
+
+      map.whenReady(() => {
+        // Add any layers or markers here
+        showUserOnMap();
+      });
     }
   }
 
@@ -30,11 +35,8 @@ $(document).ready(() => {
     const userMarker = L.marker(userLatLong, { id: 'user-marker' });
 
     // Check if the map already has the user marker
-    if (map.hasLayer(userMarker)) {
+    if (map && userMarker && !map.hasLayer(userMarker)) {
       // Update the position of the existing user marker
-      userMarker.setLatLng(userLatLong);
-    } else {
-      // Add a new user marker to the map
       userMarker.addTo(map);
     }
   }
@@ -59,6 +61,9 @@ $(document).ready(() => {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     locationThumbnail.css('background-image', 'url(static/images/location-on-48.png)');
+
+    // for the profile page location status update
+    $('#location-stat').css('background-image', 'url(static/images/icons8-on-48.png)');
     userLatLong = [latitude, longitude];
 
     $.ajax({
@@ -77,7 +82,10 @@ $(document).ready(() => {
   function sendError() {
     locationThumbnail.css('background-image', 'url(static/images/location-off.gif)');
     locationThumbnail.attr('title', 'Reload browser to turn on your location');
-    const message = 'You disallowed your location. Kindly reload your browser to enable it later';
+    const message = 'Location services disabled. To enable, please go to your browser settings and allow location access for this site.';
+
+    // for the profile page location status update
+    $('#location-stat').css('background-image', 'url(static/images/icons8-off-48.png)');
     socket.emit('send error message', { message });
     $('#pincher').hide();
     navigator.geolocation.clearWatch(geoLocationId);
@@ -89,6 +97,7 @@ $(document).ready(() => {
       const message = `Cannot view ${friend} on the map, your location is turned off`;
       socket.emit('send error message', { message });
       clearInterval(intervalId);
+      $('#map').hide();
     } else {
       createMap();
 
@@ -145,7 +154,7 @@ $(document).ready(() => {
   }
 
   /**
-   * Send a request to retrive friend location.
+   * Send a request to retrieve friend location.
    * @param {string} friend - friend username.
    */
   function getFriendLocation(friend) {
@@ -212,6 +221,13 @@ $(document).ready(() => {
 
   $('#pincher').on('click', () => {
     // Automatically zoom in and focus on the user's position
-    map.setView(userLatLong, 18);
+    if (map && userLatLong) {
+      map.setView(userLatLong, 18);
+    }
+  });
+
+  $('#location-stat').on('click', () => {
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   });
 });
