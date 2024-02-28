@@ -152,7 +152,12 @@ $(document).ready(() => {
               const unreadMessages = value.unread_messages;
               const { avatar } = value;
               const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
-              const imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
+              let imageThumbnail;
+              if (avatar) {
+                imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
+              } else {
+                imageThumbnail = $('<img class="images avatar" src="static/images/icons8-avatar-96.png">');
+              }
               friendContainer.append(imageThumbnail);
               const nameDiv = $('<div>', { class: 'name', text: username });
               friendContainer.append(nameDiv);

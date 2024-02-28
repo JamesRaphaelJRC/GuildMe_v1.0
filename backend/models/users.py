@@ -17,7 +17,9 @@ class User(BaseModel, UserMixin):
         self.username = kwargs.get('username')
         self._password = self.set_password(kwargs.get('_password'))
         self.reset_token = kwargs.get('reset_token', None)
-        self.avatar = kwargs.get('avatar', None)
+
+        # set the default avatar when a new user is created
+        self.avatar = kwargs.get('avatar', 'images/icons8-avatar-96.png')
         self.friends = kwargs.get('friends', {})
         self.allowed_tracks = kwargs.get('allowed_tracks', {})
         self.tracking_me = kwargs.get('tracking_me', {})

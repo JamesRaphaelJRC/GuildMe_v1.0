@@ -13,7 +13,12 @@ function loadFriends(data) {
     const unreadMessages = value.unread_messages;
     const { avatar } = value;
     const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
-    const imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
+    let imageThumbnail;
+    if (avatar) {
+      imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
+    } else {
+      imageThumbnail = $('<img class="images avatar" src="static/images/icons8-avatar-96.png">');
+    }
     friendContainer.append(imageThumbnail);
     const nameDiv = $('<div>', { class: 'name', text: username });
     friendContainer.append(nameDiv);
@@ -42,6 +47,7 @@ reloadFriends();
 
 // AJAX operations
 $(document).ready(() => {
+  let loadUserProfile = false;
   const socket = io();
 
   // sends an ajax post request when a user friend request is accepted
@@ -78,6 +84,7 @@ $(document).ready(() => {
       dataType: 'json',
       success: () => {
         socket.emit('allowed track', { friend });
+        location.reload();
       },
       error: (err) => {
         console.log(err);
@@ -95,6 +102,7 @@ $(document).ready(() => {
       dataType: 'json',
       success: () => {
         socket.emit('disallowed track', { friend });
+        location.reload();
       },
       error: () => {
       },
@@ -118,5 +126,74 @@ $(document).ready(() => {
         },
       });
     }
+  });
+
+  function updateUserProfile() {
+    if (loadUserProfile === false) {
+    // send a GET request to get friends the user granted allow_track permission
+      $.ajax({
+        type: 'GET',
+        url: '/api/user/friends/tracking_me',
+        contentType: 'application/json',
+        success(resp) {
+          const { friends } = resp;
+
+          if (Object.keys(friends).length > 0) {
+            const displayContainer = $('#tracking-me');
+            Object.entries(friends).forEach(([, friend]) => {
+              const miniBox = `
+            <div class="mini-box">
+              <img class="images avatar" src="static/${friend.avatar}">
+              <div class="who-tracks-me">${friend.username}</div>
+            </div>
+            `;
+              displayContainer.append(miniBox);
+            });
+          } else {
+            const displayContainer = $('#tracking-me');
+            const noFriend = '<div class="fade">You have permitted no one to view your location</div>';
+            displayContainer.append(noFriend);
+          }
+        },
+        error(err) {
+          console.log(err);
+        },
+      });
+
+      // send GET request to get friends that granted user allow_track permission
+      $.ajax({
+        type: 'GET',
+        url: '/api/user/friends/allow_track',
+        contentType: 'application/json',
+        success(resp) {
+          const { friends } = resp;
+          if (Object.keys(friends).length > 0) {
+            const displayContainer = $('#i-can-track');
+            Object.entries(friends).forEach(([, friend]) => {
+              const miniBox = `
+            <div class="mini-box">
+              <img class="images avatar" src="static/${friend.avatar}">
+              <div class="who-tracks-me">${friend.username}</div>
+            </div>
+            `;
+              displayContainer.append(miniBox);
+            });
+          } else {
+            const displayContainer = $('#i-can-track');
+            const noFriend = '<div class="fade">No one has currently permitted you to access their location</div>';
+            displayContainer.append(noFriend);
+          }
+        },
+        error(err) {
+          console.log(err);
+        },
+      });
+      loadUserProfile = true;
+    }
+  }
+
+  // action when avatar is clicked
+  $('#profile-pic').on('click', () => {
+    updateUserProfile();
   });
 });

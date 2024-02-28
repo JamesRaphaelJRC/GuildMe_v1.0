@@ -66,22 +66,45 @@ def remove_friend():
 
 
 @login_required
-@api.route('/friends/allow_track', methods=['POST'])
+@api.route('/friends/allow_track', methods=['GET', 'POST'])
 def allow_track_access():
     ''' POST /api/user/friends/allow_track
     Handles user's choice to allow a friend to track
+
+        GET /api/user/friends/allow_track
+    Retrieves all friends that gave user the allow_track permission
+    i.e all friends user can track
     '''
     user = AUTH.authenticate_user()
-    friend = request.get_json().get('friend')
-    friend = db.find_user_by(username=friend)
-    if not friend:
-        return jsonify({"error": "Invalid friend"}), 400
 
-    friend_id = friend.id
+    if request.method == 'POST':
+        friend = request.get_json().get('friend')
+        friend = db.find_user_by(username=friend)
+        if not friend:
+            return jsonify({"error": "Invalid friend"}), 400
 
-    if CHOICE.allow_track_access(user.id, friend_id):
-        return jsonify({'status': 'Track permission allowed'})
-    return jsonify({'status': 'something went wrong, check friend id'}), 400
+        friend_id = friend.id
+
+        if CHOICE.allow_track_access(user.id, friend_id):
+            return jsonify({'status': 'Track permission allowed'})
+        return jsonify(
+            {'status': 'something went wrong, check friend id'}
+            ), 400
+    else:
+        # For GET requests
+        permitted_friends = user.allowed_tracks
+        return jsonify({'friends': permitted_friends})
+
+
+@api.route('/friends/tracking_me')
+def tracking_me():
+    ''' GET /api/user/friends/tracking_me
+    Return all friends user granted the allow_track permission
+    i.e. friends tracking user
+    '''
+    user = AUTH.authenticate_user()
+    permitted_friends = user.tracking_me
+    return jsonify({'friends': permitted_friends})
 
 
 @login_required

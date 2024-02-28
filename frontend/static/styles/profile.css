@@ -124,6 +124,9 @@
 
 .i-track-disp-cont {
     overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* ensures images go to the next line when container is full */
 }
 
 .upload-box {

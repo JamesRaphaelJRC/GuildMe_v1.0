@@ -14,14 +14,14 @@ $(document).ready(() => {
   });
 
   function createMap() {
-    legend.show();
-
     if (!map && userLatLong) {
       map = L.map('map', { zoomControl: false }).setView([userLatLong[0], userLatLong[1]], 13);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
       }).addTo(map);
+
+      legend.show();
 
       map.whenReady(() => {
         // Add any layers or markers here
@@ -171,8 +171,14 @@ $(document).ready(() => {
             friendLatLong = resp.location;
             loadOnMap(friendLatLong);
           },
-          error: () => {
-            const message = `${friend} did not grant you track access`;
+          error: (resp) => {
+            let message;
+            if (resp.status === 404) {
+              message = `${friend}'s location is currently unavailable.`;
+            } else {
+              // if 400
+              message = `${friend} did not grant you track access.`;
+            }
             socket.emit('send error message', { message });
             accessGranted = false;
           },
