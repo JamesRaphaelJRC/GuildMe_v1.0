@@ -3,7 +3,7 @@
 '''
 from pymongo import MongoClient
 from bson import InvalidDocument
-from pymongo.errors import OperationFailure
+from pymongo.errors import OperationFailure, WriteError
 from backend.models.users import User
 from backend.models.conversations import Conversation
 from backend.models.messages import Message
@@ -317,8 +317,13 @@ class DB:
             return False
 
         username = user.username
-        self._conversations.update_many(
-            {'participants': {'$in': [user_id]}},
-            {'$set': {'is_in_chat.' + user.username: False}}
-        )
-        return True
+        update_path = f'is_in_chat.{username}'
+        
+        try:
+            self._conversations.update_many(
+                {'participants': {'$in': [user_id]}},
+                {'$set': {update_path: False}}
+            )
+            return True
+        except WriteError:
+            return False

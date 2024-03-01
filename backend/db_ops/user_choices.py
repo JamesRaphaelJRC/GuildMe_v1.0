@@ -155,7 +155,8 @@ class Choice:
         participants = [user_id, friend_id]
         conversation = self._db.find_conversation_by(participants=participants)
         is_in_chat = conversation.is_in_chat
-        if is_in_chat.get(users_name) is True:
+        status = is_in_chat.get(users_name, False)
+        if status is True:
             return True
         return False
 
