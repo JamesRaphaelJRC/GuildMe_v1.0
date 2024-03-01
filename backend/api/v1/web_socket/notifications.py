@@ -6,7 +6,6 @@ from backend.api.v1.web_socket import socket_io
 from backend.auth import AUTH
 from backend.db_ops import db
 from backend.db_ops.redis import RedisClient
-import json
 
 redis_client = RedisClient()
 
@@ -198,3 +197,16 @@ def send_success_notification(data):
     user_id = AUTH.authenticate_user().id
     message = data.get('message')
     emit('success', {'message': message}, room=user_id)
+
+
+@socket_io.on('reload profile')
+def reload_profile(data):
+    '''' reloads profile of a user/friend '''
+    friend = data.get('friend')
+    user_id = AUTH.authenticate_user().id
+    if not friend:
+        return
+    friend = db.find_user_by(username=friend)
+    if friend:
+        emit('profile reload', room=friend.id)
+        emit('profile reload', room=user_id)
