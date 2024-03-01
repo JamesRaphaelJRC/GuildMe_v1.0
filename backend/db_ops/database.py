@@ -327,3 +327,59 @@ class DB:
             return True
         except WriteError:
             return False
+
+    def update_related_documents(self, user_id: str) -> bool:
+        ''' Updates all related documents with new user data
+        It updates all user friends with the latest changes to user data
+        '''
+        if not is_str_and_not_None([user_id]):
+            return False
+
+        user = self.find_user_by(id=user_id)
+        if not user:
+            return False
+
+        # update for friends
+        friends = user.friends
+        if not friends:
+            return False
+        friend_ids = [ id for id in friends.keys()]
+
+        updated = False
+        for id in friend_ids:
+            friend = self.find_user_by(id=id)
+            # checks for allowed_tracks
+            if user.id in friend.allowed_tracks:
+                updated_user_data = {
+                    'username': user.username,
+                    'location': user.location,
+                    'avatar': user.avatar
+                }
+                allowed_tracks = friend.allowed_tracks
+                allowed_tracks[user.id] = updated_user_data
+                self.update_user(friend.id, allowed_tracks = allowed_tracks)
+                updated = True
+            # checks for tracking_me
+            if user.id in friend.tracking_me:
+                trackers = friend.tracking_me
+                updated_user_data = {
+                    'username': user.username,
+                    'avatar': user.avatar
+                }
+                trackers[user.id] = updated_user_data
+                self.update_user(friend.id, tracking_me=trackers)
+                updated = True
+            # Does for friends
+            friends_friends = friend.friends
+            updated_user_data = {
+                'id': user.id,
+                'username': user.username,
+                'last_seen': None,
+                'avatar': user.avatar
+            }
+            friends_friends[user.id] = updated_user_data
+            self.update_user(friend.id, friends=friends_friends)
+            updated = True
+        if updated is True:
+            return True
+        return False

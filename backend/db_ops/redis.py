@@ -232,3 +232,13 @@ class RedisClient:
         if num_del > 0:
             return True
         return False
+
+    def delete_all_notifications(self, user_id: str) -> bool:
+        ''' Deletes all notifications for a given user '''
+        if not is_str_and_not_None([user_id]):
+            return False
+
+        notification_key = f"notifications:{user_id}"
+        print('entered to delere')
+
+        return self._redis_client.delete(notification_key) > 0
