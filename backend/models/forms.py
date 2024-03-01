@@ -31,7 +31,7 @@ class SignUpForm(FlaskForm):
             username.data fetches the username inputed in the SignUp form
         '''
         special_characters_pattern = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
-        if special_characters_pattern.search(username.data):
+        if special_characters_pattern.search(username.data) is not None:
             raise ValidationError(
                 'Username must not contain special characters')
         if AUTH.user_exists(username.data):
