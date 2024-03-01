@@ -3,6 +3,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+import re
 from backend.auth import AUTH
 
 
@@ -29,6 +30,10 @@ class SignUpForm(FlaskForm):
         ''' Checks if username already exists/used
             username.data fetches the username inputed in the SignUp form
         '''
+        special_characters_pattern = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
+        if special_characters_pattern.search(username.data):
+            raise ValidationError(
+                'Username must not contain special characters')
         if AUTH.user_exists(username.data):
             raise ValidationError('Please use a different username.')
 
@@ -38,3 +43,4 @@ class SignUpForm(FlaskForm):
         '''
         if AUTH.user_exists(email.data):
             raise ValidationError('Please use a different email.')
+
