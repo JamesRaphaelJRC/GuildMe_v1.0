@@ -43,4 +43,3 @@ class SignUpForm(FlaskForm):
         '''
         if AUTH.user_exists(email.data):
             raise ValidationError('Please use a different email.')
-
