@@ -25,9 +25,12 @@ def new_message(data):
     ''' Handles new messages '''
     room = data.get('room')
     friend = data.get('friend')
-    friend_id = db.find_user_by(username=friend).id
-    message = data.get('message')
-    user_id = current_user.get_id()
-    username = db.find_user_by(id=user_id).username
-    db.new_message(user_id, friend_id, message)
-    emit("chat", {"message": message, "sender": username}, to=room)
+    friend = db.find_user_by(username=friend)
+    if friend:
+        friend_id = friend.id
+        message = data.get('message')
+        user_id = current_user.get_id()
+        username = db.find_user_by(id=user_id).username
+        db.new_message(user_id, friend_id, message)
+        emit("chat", {"message": message, "sender": username}, to=room)
+    emit('send error message', {"message": "User does not exist anymore"})

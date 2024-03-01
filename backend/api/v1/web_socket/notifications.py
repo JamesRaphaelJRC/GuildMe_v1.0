@@ -135,6 +135,19 @@ def delete_notification(data):
         emit('reload_friend_request', room=user.id)
 
 
+@socket_io.on('delete all user notifications')
+def delete_all_notifications():
+    ''' Deletes all user notifications '''
+    print('entered here')
+    user_id = AUTH.authenticate_user().id
+    status = redis_client.delete_all_notifications(user_id)
+    if status:
+        print('done')
+        return jsonify({"status": "success"})
+    print('error')
+    return jsonify({"status": "something went wrong"}), 400
+
+
 @socket_io.on('allowed track')
 def allowed_track(data):
     ''' Notifies friend that a user has granted track access
@@ -178,9 +191,13 @@ def verify_then_delete(data):
     '''
     user_id = AUTH.authenticate_user().id
     friend = data.get('friend')
-    friend_id = db.find_user_by(username=friend).id
-
-    status = AUTH.confirm_and_delete(user_id, friend_id)
+    friend = db.find_user_by(username=friend)
+    status = AUTH.confirm_and_delete(user_id, friend)
+    if status:
+        message = 'Successfully removed'
+        emit('send success message', {"message": message})
+    message = 'Oops something went wrong!'
+    emit('send error message', {"message": message})
 
 
 @socket_io.on('send error message')
