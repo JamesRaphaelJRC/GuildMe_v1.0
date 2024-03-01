@@ -114,37 +114,11 @@
         <div class="locale-and-track-info" id="i-track">
             <h5 class="line-heading">Friends who can see my location</h5>
             <div class="i-track-disp-cont" id="tracking-me">
-                <!-- {% if user.tracking_me | length > 0 %}
-                {% for friend in user.tracking_me.values() %}
-                <div class="mini-box">
-                    <img class="images avatar" src="{{ url_for('user_views.static', filename=friend.avatar) }}" alt="User Avatar">
-                    <div class="who-tracks-me">{{ friend.username }}</div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="fade">You have permitted no one to view your location</div>
-                {% endif %} -->
-                <!-- <div class="mini-box">
-                </div> -->
             </div>
         </div>
         <div class="locale-and-track-info" id="i-track">
             <h5 class="line-heading">Friends I can track</h5>
             <div class="i-track-disp-cont" id="i-can-track">
-                <!-- {% if user.allowed_tracks | length > 0 %}
-                {% for friend in user.allowed_tracks.values() %}
-                <div class="mini-box">
-                    {% if friend.avatar %}
-                    <img class="images avatar" src="{{ url_for('user_views.static', filename=friend.avatar) }}" alt="User Avatar">
-                    {% else %}
-                    <img class="images avatar" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}" alt="User Avatar">
-                    {% endif %}
-                    <div class="who-tracks-me">{{ friend.username }}</div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="fade">No one has currently permitted you to access their location</div>
-                {% endif %} -->
             </div>
         </div>
         <div class="upload-box" id="upload-container">
