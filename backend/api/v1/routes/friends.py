@@ -53,14 +53,8 @@ def remove_friend():
     Handles removal of a friend from user's friend
     '''
     user = AUTH.authenticate_user()
-    friend = request.get_json().get('friend')
-    friend = db.find_user_by(username=friend)
-    if not friend:
-        return jsonify({"error": "Invalid friend"}), 400
-
-    friend_id = friend.id
-
-    if CHOICE.remove_friend(user.id, friend_id):
+    friend_name = request.get_json().get('friend')
+    if CHOICE.remove_friend(user.id, friend_name):
         return jsonify({'status': 'friend removed'})
     return jsonify({'status': 'something went wrong, check friend id'}), 400
 

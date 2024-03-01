@@ -19,8 +19,9 @@ def get_conversations() -> str:
     user = AUTH.authenticate_user()
     user_id = user.id
     friend = request.get_json().get('friend')
-    friend_id = db.find_user_by(username=friend).id
-    if friend_id:
+    friend = db.find_user_by(username=friend)
+    if friend:
+        friend_id = friend.id
         if not AUTH.conversation_exists(user_id, friend_id):
             conv_id = CHOICE.create_conversation(user_id, friend_id)
         else:
@@ -60,23 +61,25 @@ def update_user_is_in_chat() -> str:
     status = request.get_json().get('status')
 
     if friend:
-        friend_id = db.find_user_by(username=friend).id
-
-        # validate friend id and prevent storage when they're not friends
-        if friend_id and AUTH.is_a_valid_friend(user.id, friend_id)\
-                and AUTH.is_a_valid_friend(friend_id, user_id):
-            participants = [user_id, friend_id]
-            conversation = db.find_conversation_by(participants=participants)
-            if not conversation:
-                conversation = db.new_conversation(user_id, friend_id)
-            is_in_chat = conversation.is_in_chat
-            data = {
-                user.username: status,
-                friend: is_in_chat.get(friend)
-            }
-            conv_id = conversation.id
-            db.update_conversation(conv_id, is_in_chat=data)
-            return jsonify({"update": "success"})
+        friend = db.find_user_by(username=friend)
+        if friend:
+            friend_id = friend.id
+            # validate friend id and prevent storage when they're not friends
+            if AUTH.is_a_valid_friend(user.id, friend_id)\
+                    and AUTH.is_a_valid_friend(friend_id, user_id):
+                participants = [user_id, friend_id]
+                conversation = db.find_conversation_by(
+                    participants=participants)
+                if not conversation:
+                    conversation = db.new_conversation(user_id, friend_id)
+                is_in_chat = conversation.is_in_chat
+                data = {
+                    user.username: status,
+                    friend: is_in_chat.get(friend)
+                }
+                conv_id = conversation.id
+                db.update_conversation(conv_id, is_in_chat=data)
+                return jsonify({"update": "success"})
     # sets all is_in_chat property of user to false if no friend
     db.unmark_user_is_in_chats(user_id)
     return jsonify({"update": "All set to false"})
@@ -88,8 +91,9 @@ def user_is_in_chat() -> str:
     '''
     friend = request.get_json().get('friend')
     user_id = AUTH.authenticate_user().id
-    friend_id = db.find_user_by(username=friend).id
-    if friend_id:
+    friend = db.find_user_by(username=friend)
+    if friend:
+        friend_id = friend.id
         status = CHOICE.user_currently_in_chat(user_id, friend_id)
         return jsonify({"status": status})
     return jsonify({"error": "Invalid credentials"}), 400
