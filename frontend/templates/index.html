@@ -1,7 +1,109 @@
-<!doctype html>
-<title>Upload new File</title>
-<h1>Upload new File</h1>
-<form method=post enctype=multipart/form-data>
-  <input type=file name=file>
-  <input type=submit value=Upload>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuildMe-Home</title>
+
+    <!-- Style sheet -->
+    <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/index.css')}}">
+</head>
+<body>
+    <header>
+        <div class="head">
+            <div class="logo large">🌍 GuildMe</div>
+            <div class="nav">
+             <!-- <p>About us</p>  -->
+            </div>
+            <a href="{{ url_for('pub_views.login') }}"><div class="accounts">Login</div></a>
+        </div>
+        <div class="head-container">
+            <div class="images" id="facepic"></div>
+            <div class="intro">
+                <h1>Guild Me</h1>
+                <h2>Stay connected with loved ones<br> in real-time, at any distance!</h2>
+            </div>
+        </div>
+    </header>
+    <div class="features-container">
+        <div class="standby images"></div>
+        <div class="container features">
+            <div class="feature">
+                <div class="feat-info">
+                    <h2>Location Tracker</h2>
+                    <p>Track your friends and family in real-time and explore nearby places.</p>
+                </div>
+                <div class="images feature-img" id="track"></div>
+            </div>
+            <div class="feature">
+                <div class="feat-info">
+                    <h2>Real time Chat</h2>
+                    <p>Direct your loved ones as they transition towards you.</p>
+                </div>
+                <div class="images feature-img" id="chat"></div>
+            </div>
+            <div class="feature">
+                <div class="feat-info">
+                    <h2>Share Locations</h2>
+                    <p>Share your favorite places with friends and family.</p>
+                </div>
+                <div class="images feature-img" id="share"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <section class="features">
+      <div class="left-content images"></div>
+      <div class="container">
+          <div class="feature">
+              <div class="images" id="tracking"></div>
+              <h2>Location Tracking</h2>
+              <p>Track your location in real-time and explore nearby places.</p>
+          </div>
+          <div class="feature">
+              <h2>Real time Chat</h2>
+              <p>Direct your loved ones on the move as they locate you</p>
+          </div>
+          <div class="feature">
+              <h2>Share Locations</h2>
+              <p>Share your favorite places with friends and family.</p>
+          </div>
+      </div> -->
+      <!-- <div class="right-content images"></div> -->
+    </section>
+    <section class="cta">
+        <div class="container">
+            <h2>Get Started Today!</h2>
+            <p>Sign up and start watching over everyone around you.</p>
+            <a href="{{ url_for('pub_views.signup') }}" class="btn">Sign Up Now</a>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 GuildMe - An ALX Webstack Portfolio Project. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const features = document.querySelector('.features');
+
+            let featureIndex = 0;
+
+            function showFeature(index) {
+                features.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            function nextFeature() {
+                featureIndex = (featureIndex + 1) % features.children.length;
+                showFeature(featureIndex);
+            }
+
+            // Automatically advance to the next feature every 3 seconds
+            setInterval(nextFeature, 4000);
+        });
+    </script>
+</body>
+</html>
+<!-- "Stay connected with your friends in real-time, no matter the distance
+  . Your journey together begins now – effortlessly track each other's live locations with 
+  our seamless geolocation app. Adventure awaits, side by side. 🌍👫 #JourneyTogether 
+  #RealTimeConnection" -->
