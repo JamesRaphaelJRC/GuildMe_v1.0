@@ -1,0 +1,218 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.images {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.container {
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    text-align: center;
+    /* padding: 40px 0; */
+}
+
+header {
+    /* color: #052b31; */
+    /* background-image: url(../images/2149906273\(1\).jpg); */
+    /* background: linear-gradient(to right, #052b31, #04444e, #016873); */
+    background-color: #021316;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 62vh;
+}
+
+.head {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* color: white; */
+    font-weight: 800;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+}
+
+.head-container {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    gap: 50px;
+    padding-left: 100px;
+}
+
+#facepic {
+    margin-top: -20px;
+    height: 300px;
+    width: 400px;
+    /* border: 1px solid wheat; */
+    background-image: url(../images/tracknobg.png);
+    background-size: contain;
+}
+
+.intro {
+    padding: 40px;
+}
+
+header h1 {
+    font-size: 4em;
+    margin-top: -10px;
+    margin-bottom: 0px;
+}
+
+header h2 {
+    margin-top: 0px;
+    /* color: #21e0bf; */
+    color: #21e0bf;
+}
+
+/* Features part */
+.features-container {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.standby {
+    height: 300px;
+    width: 25%;
+    /* border: 1px solid gray; */
+    padding: 5px;
+    background-image: url(../images/checklistnobg.png);
+    z-index: 1000;
+    background-color: #f8f8f8;
+}
+
+.features {
+    height: 150px;
+    background-color: #f8f8f8;
+    width: 75%;
+    padding: 80px 0;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    /* border: 1px solid green; */
+    /* height: 150px; */
+}
+
+.feature {
+    flex: 0 0 100%; /* Make each feature take the full width */
+    text-align: center;
+    margin-bottom: 40px;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    color: #171412;
+}
+
+.feat-info {
+    padding-left: 30px;
+}
+
+.feature-img {
+    width: 200px;
+    height: 200px;
+}
+
+#track {
+    background-image: url(../images/9-removebg-preview.png);
+}
+
+#chat {
+    background-image: url(../images/laptopnobg.png);
+}
+
+#share {
+    background-image: url(../images/showmewaynobg.png);
+}
+
+.cta {
+    /* background-color: #2ecc71; */
+    background-color: #0f8571;
+    color: #fff;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.cta h2 {
+    font-size: 2em;
+}
+
+.cta p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #fff;
+    color: #2ecc71;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1.2em;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 60px 0;
+    }
+
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    .features, .cta {
+        padding: 60px 0;
+    }
+
+    .feature img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cta h2 {
+        font-size: 1.8em;
+    }
+
+    .cta p {
+        font-size: 1em;
+    }
+}
