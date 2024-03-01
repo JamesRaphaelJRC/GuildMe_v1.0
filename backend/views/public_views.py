@@ -23,8 +23,7 @@ def landing_page():
 @pub_views.route('/about')
 def about():
     ''' Returns the about page '''
-    return jsonify({'About page'})
-    # return render_template('about.html', page='About')
+    return render_template('about.html')
 
 
 @pub_views.route('/signup', methods=['GET', 'POST'])

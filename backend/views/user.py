@@ -82,6 +82,9 @@ def upload_file():
 
             img_path = f'uploads/avatars/{new_name}'  # use relative path
             db.update_user(user_id, avatar=img_path)
+
+            # update latest pictures in all friends' documents
+            db.update_related_documents(user_id)
             return redirect(url_for('user_views.dashboard'))
 
     return redirect(url_for('user_views.dashboard'))
