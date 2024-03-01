@@ -47,7 +47,7 @@ reloadFriends();
 
 // AJAX operations
 $(document).ready(() => {
-  let loadUserProfile = false;
+  let loadedUserProfile = false;
   const socket = io();
 
   // sends an ajax post request when a user friend request is accepted
@@ -84,7 +84,8 @@ $(document).ready(() => {
       dataType: 'json',
       success: () => {
         socket.emit('allowed track', { friend });
-        location.reload();
+        // location.reload();
+        socket.emit('reload profile', { friend });
       },
       error: (err) => {
         console.log(err);
@@ -102,7 +103,8 @@ $(document).ready(() => {
       dataType: 'json',
       success: () => {
         socket.emit('disallowed track', { friend });
-        location.reload();
+        // location.reload();
+        socket.emit('reload profile', { friend });
       },
       error: () => {
       },
@@ -129,7 +131,7 @@ $(document).ready(() => {
   });
 
   function updateUserProfile() {
-    if (loadUserProfile === false) {
+    if (loadedUserProfile === false) {
     // send a GET request to get friends the user granted allow_track permission
       $.ajax({
         type: 'GET',
@@ -137,7 +139,7 @@ $(document).ready(() => {
         contentType: 'application/json',
         success(resp) {
           const { friends } = resp;
-
+          $('#tracking-me').empty(); // empty before refilling
           if (Object.keys(friends).length > 0) {
             const displayContainer = $('#tracking-me');
             Object.entries(friends).forEach(([, friend]) => {
@@ -166,6 +168,7 @@ $(document).ready(() => {
         url: '/api/user/friends/allow_track',
         contentType: 'application/json',
         success(resp) {
+          $('#i-can-track').empty();
           const { friends } = resp;
           if (Object.keys(friends).length > 0) {
             const displayContainer = $('#i-can-track');
@@ -188,12 +191,17 @@ $(document).ready(() => {
           console.log(err);
         },
       });
-      loadUserProfile = true;
+      loadedUserProfile = true;
     }
   }
 
   // action when avatar is clicked
   $('#profile-pic').on('click', () => {
+    updateUserProfile();
+  });
+
+  socket.on('profile reload', () => {
+    loadedUserProfile = false;
     updateUserProfile();
   });
 });
