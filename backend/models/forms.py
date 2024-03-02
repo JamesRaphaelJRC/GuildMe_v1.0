@@ -30,10 +30,10 @@ class SignUpForm(FlaskForm):
         ''' Checks if username already exists/used
             username.data fetches the username inputed in the SignUp form
         '''
-        special_characters_pattern = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
+        special_characters_pattern = re.compile(r'[@_!#$%^&*()<>?/\|}{~: ]')
         if special_characters_pattern.search(username.data) is not None:
             raise ValidationError(
-                'Username must not contain special characters')
+                'Username must not contain special characters or spaces')
         if AUTH.user_exists(username.data):
             raise ValidationError('Please use a different username.')
 

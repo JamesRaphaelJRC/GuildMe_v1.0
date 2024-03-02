@@ -54,8 +54,9 @@ def remove_friend():
     '''
     user = AUTH.authenticate_user()
     friend_name = request.get_json().get('friend')
-    if CHOICE.remove_friend(user.id, friend_name):
-        return jsonify({'status': 'friend removed'})
+    friend_id = CHOICE.remove_friend(user.id, friend_name)
+    if friend_id:
+        return jsonify({'status': 'friend removed', 'friend_id': friend_id})
     return jsonify({'status': 'something went wrong, check friend id'}), 400
 
 

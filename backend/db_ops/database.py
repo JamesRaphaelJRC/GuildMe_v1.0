@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 ''' DB class module
 '''
+from typing import Union, TypeVar, List, Dict
+import os
 from pymongo import MongoClient
 from bson import InvalidDocument
 from pymongo.errors import OperationFailure, WriteError
 from backend.models.users import User
 from backend.models.conversations import Conversation
 from backend.models.messages import Message
-from typing import Union, TypeVar, List, Dict
+
 
 OBJECT_TYPES = Union[TypeVar('User'), TypeVar('Conversation')]
 CLASSES = ['User', 'Conversation']
@@ -36,7 +38,17 @@ class DB:
         Return:
             The newly created User
         '''
+        from backend.utils.utilities import Utils
+
+        utils = Utils()
+
         user = User(**kwargs)
+
+        original_path = 'frontend/static/images/icons8-avatar-96.png'
+        new_path =  f'frontend/static/uploads/avatars/{user.id}.png'
+        if utils.copy_and_rename_file(original_path, new_path):
+            user.avatar = f'uploads/avatars/{user.id}.png'
+
         self._users.insert_one(user.to_dict())
         return user
 
@@ -92,10 +104,31 @@ class DB:
         ''' Deletes a user from the users database collection '''
         if not is_str_and_not_None([user_id]):
             return False
-        deleted_user_id = self._users.delete_one({'id': user_id})
-        if deleted_user_id is None:
+
+        user = self.find_user_by(id=user_id)
+
+        # Check if the user exists
+        if not user:
             return False
-        return True
+
+        try:
+            # Delete the user from the database
+            deleted_user_id = self._users.delete_one({'id': user_id})
+            
+            if deleted_user_id.deleted_count == 0:
+                return False
+
+            # Delete the avatar file
+            avatar_path = f'frontend/static/{user.avatar}'
+            os.remove(avatar_path)
+            return True
+        except FileNotFoundError:
+            print(f"Error: Avatar file not found at {avatar_path}")
+            return False
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+
 
     def new_conversation(self, user1_id: str, user2_id: str)\
             -> Union[Conversation, None]:

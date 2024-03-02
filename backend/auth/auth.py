@@ -112,7 +112,7 @@ class Auth:
         ''' Verifies if friend is in a user's friends dictionary '''
         user = self._db.find_user_by(id=user_id)
         if not user:
-            raise ValueError(f'Invalid User {user_id}')
+            return False
 
         user_friends = user.friends
         if friend_id in user_friends:
@@ -176,28 +176,10 @@ class Auth:
             return True
         return False
 
-    def confirm_and_delete(self, user_id: str, friend: str) -> bool:
+    def confirm_and_delete(self, user_id: str, friend_id: str) -> bool:
         ''' Verifies if user and friend have removed each other as friends
-        then deletes the associated conversation.
-        friend can be an id or username
+        then deletes the associated conversation
         '''
-        user = self._db.find_user_by(id=user_id)
-        friend_obj = self._db.find_user_by(id=friend)
-        if not friend_obj:
-            friend_obj = self._db.find_user_by(username=friend)
-
-            # may be friend's account has been deleted
-            if not friend_obj:
-                user_friends = user.friends
-                # get the id from the info in user friends dict
-                for id, friend_info in user_friends.items():
-                    if friend_info.get('username') == friend:
-                        friend_id = id
-                        break  # since 2 users cannot have same username
-            else:
-                friend_id = friend_obj.id
-        else:
-            friend_id = friend_obj.id
         if not self.is_a_valid_friend(user_id, friend_id) and\
                 not self.is_a_valid_friend(friend_id, user_id):
             participants = [user_id, friend_id]

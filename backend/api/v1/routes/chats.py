@@ -61,9 +61,9 @@ def update_user_is_in_chat() -> str:
     status = request.get_json().get('status')
 
     if friend:
-        friend = db.find_user_by(username=friend)
-        if friend:
-            friend_id = friend.id
+        friend_obj = db.find_user_by(username=friend)
+        if friend_obj:
+            friend_id = friend_obj.id
             # validate friend id and prevent storage when they're not friends
             if AUTH.is_a_valid_friend(user.id, friend_id)\
                     and AUTH.is_a_valid_friend(friend_id, user_id):
@@ -72,6 +72,7 @@ def update_user_is_in_chat() -> str:
                     participants=participants)
                 if not conversation:
                     conversation = db.new_conversation(user_id, friend_id)
+
                 is_in_chat = conversation.is_in_chat
                 data = {
                     user.username: status,

@@ -95,24 +95,26 @@ def handle_accepted_friend_request(data):
     notification_id = data.get('id')
     user = AUTH.authenticate_user()
     friend_obj = db.find_user_by(username=friend)
-    friend_id = friend_obj.id
-    # Creat a new notification and alert friend that his request is accepted
-    message = f'{user.username} accepted your friend request'
-    notification_type = 'general'
-    notification = redis_client.new_notification(user.id, friend_id, message,
-                                                 notification_type)
-    if notification:
-        emit('alert_user', room=friend_id)
-        emit('success', {
-            'message': f'You are now friends with {friend_obj.username}'
-            }, room=user.id)
-        # reload the general notifications of the friend
-        emit('reload_general_notification', room=friend_id)
+    if friend_obj:
+        friend_id = friend_obj.id
+        # Creat a new notification and alert friend that his request is
+        # accepted
+        message = f'{user.username} accepted your friend request'
+        notification_type = 'general'
+        notification = redis_client.new_notification(
+            user.id, friend_id, message, notification_type)
+        if notification:
+            emit('alert_user', room=friend_id)
+            emit('success', {
+                'message': f'You are now friends with {friend_obj.username}'
+                }, room=user.id)
+            # reload the general notifications of the friend
+            emit('reload_general_notification', room=friend_id)
 
-    # delete the friend request notification
-    status = redis_client.delete_notification(user.id, notification_id)
-    if status:
-        emit('reload_friend_request', room=user.id)
+        # delete the friend request notification
+        status = redis_client.delete_notification(user.id, notification_id)
+        if status:
+            emit('reload_friend_request', room=user.id)
 
 
 @socket_io.on('mark as read')
@@ -190,9 +192,8 @@ def verify_then_delete(data):
     then delete the conversation (containing all messages)
     '''
     user_id = AUTH.authenticate_user().id
-    friend = data.get('friend')
-    friend = db.find_user_by(username=friend)
-    status = AUTH.confirm_and_delete(user_id, friend)
+    friend_id = data.get('friend_id')
+    status = AUTH.confirm_and_delete(user_id, friend_id)
     if status:
         message = 'Successfully removed'
         emit('send success message', {"message": message})

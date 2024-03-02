@@ -59,11 +59,13 @@ class Choice:
         except ValueError:
             return False
 
-    def remove_friend(self, user_id: str, friend: str) -> bool:
+    def remove_friend(self, user_id: str, friend: str) -> Union[str | bool]:
         ''' Removes a friend from a user's friend dictionary
         friend can be an id or a username
         Raise:
             ValueError when user or friend does not exist
+        Return:
+            Friend id on success, False otherwise
         '''
         try:
             user = AUTH.authenticate_user()
@@ -79,10 +81,11 @@ class Choice:
                     user_friends = user.friends
                     for id, friend_info in user_friends.items():
                         if friend_info.get('username') == friend:
-                            del user_friends[id]
+                            friend_id = id
+                            del user_friends[friend_id]
                             self._db.update_user(user_id, friends=user_friends)
                             # return since 2 users cant have 1 username
-                            return True
+                            return friend_id
                     return False
             friend_id = friend_obj
             friend_dict = user.friends
@@ -91,7 +94,7 @@ class Choice:
             else:
                 return False
             self._db.update_user(user_id, friends=friend_dict)
-            return True
+            return friend_id
         except ValueError:
             return False
 
