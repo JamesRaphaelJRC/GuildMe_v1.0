@@ -160,3 +160,14 @@ input[type="submit"] {
     margin-bottom: 10px;
     /* margin-left: 25%; */
 }
+
+.del-user {
+    padding: 15px;
+    background-color: red;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -126,7 +126,6 @@ $(document).ready(() => {
             resolve(resp);
           },
           error: (err) => {
-            console.log(err);
             reject(err);
           },
         });
@@ -169,7 +168,7 @@ $(document).ready(() => {
                       friendContainer.append(unreadChats);
                     }
                   })
-                  .catch((error) => { console.log(error); });
+                  .catch(() => {});
               }
               friendlist.append(friendContainer);
             });
@@ -227,7 +226,10 @@ $(document).ready(() => {
         // User joins the room
         socket.emit('join', { friend, room });
       })
-      .catch((error) => { console.log(error); });
+      .catch((error) => {
+        const message = 'Friend does not exist anymore';
+        socket.emit('send error message', { message });
+      });
 
     // Handle sending new message
     $('.message-box').on('keypress', (e) => {

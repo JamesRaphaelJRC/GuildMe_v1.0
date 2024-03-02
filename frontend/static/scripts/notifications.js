@@ -195,6 +195,30 @@ $(document).ready(() => {
         uploadBox.hide();
       });
     });
+
+    $('.del-user').on('click', () => {
+      // eslint-disable-next-line no-restricted-globals, no-alert
+      const confirmed = confirm('Are you sure you want to delete this account?');
+
+      if (confirmed) {
+        socket.emit('delete all user notifications');
+        $.ajax({
+          type: 'DELETE',
+          url: '/api/user/remove',
+          contentType: 'application/json',
+          success(response) {
+            if (response.redirect) {
+              // redirects user to the homepage
+              window.location.href = response.redirect;
+            }
+          },
+          error() {
+            const message = 'something went wrong';
+            socket.emit('send error message', { message });
+          },
+        });
+      }
+    });
   });
 
   // Handle user logout

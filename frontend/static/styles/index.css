@@ -64,6 +64,39 @@ header {
     padding-left: 100px;
 }
 
+#menu-btn {
+    height: 30px;
+    width: 30px;
+    background-image: url(../images/icons8-menu-60.png);
+}
+
+#menu-btn:hover {
+    background-image: url(../images/menu2-30.png);
+    cursor: pointer;
+}
+
+.drop-down {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: #0f8571;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.option {
+    padding: 10px 30px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.option:hover {
+    background-color: #04282e;
+}
+
 #facepic {
     margin-top: -20px;
     height: 300px;

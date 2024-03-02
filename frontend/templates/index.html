@@ -15,7 +15,13 @@
             <div class="nav">
              <!-- <p>About us</p>  -->
             </div>
-            <a href="{{ url_for('pub_views.login') }}"><div class="accounts">Login</div></a>
+            <div class="images" id="menu-btn"></div>
+        </div>
+        <div class="drop-down">
+            <a href="{{ url_for('pub_views.landing_page') }}"><div class="option home">Home</div></a>
+            <a href="{{ url_for('pub_views.login') }}"><div class="option login">Login</div></a>
+            <a href="{{ url_for('pub_views.signup') }}"><div class="option signup">Sign Up</div></a>
+            <a href="{{ url_for('pub_views.about') }}"><div class="option about">About us</div></a>
         </div>
         <div class="head-container">
             <div class="images" id="facepic"></div>
@@ -83,7 +89,7 @@
         </div>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function(event) {
             const features = document.querySelector('.features');
 
             let featureIndex = 0;
@@ -97,8 +103,25 @@
                 showFeature(featureIndex);
             }
 
-            // Automatically advance to the next feature every 3 seconds
+            // Automatically advance to the next feature every 4 seconds
             setInterval(nextFeature, 4000);
+
+            const menuBtn = document.getElementById('menu-btn');
+            const dropDownBox = document.getElementsByClassName('drop-down')[0];
+
+            document.addEventListener('click', (event) => {
+            const targetElement = event.target;
+
+                // Check if the clicked element is outside the dropdown box and the menu button
+                if (!dropDownBox.contains(targetElement) && targetElement !== menuBtn) {
+                    dropDownBox.style.display = 'none';
+                }
+            });
+
+            menuBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                dropDownBox.style.display = 'block';
+            });
         });
     </script>
 </body>

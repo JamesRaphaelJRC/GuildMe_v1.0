@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - GuildMe</title>
+
+    <!-- Style sheet -->
+    <link rel="stylesheet" href="{{ url_for('user_views.static', filename='styles/about.css')}}">
+</head>
+<body>
+    <div id="navigation">
+        <div class="logo">🌍 GuildMe</div>
+        <div class="navs">
+            <a href="{{ url_for('pub_views.landing_page') }}">Home</a>
+            <a href="{{ url_for('pub_views.login') }}">Login</a>
+            <a href="{{ url_for('pub_views.signup') }}">Signup</a>
+        </div>
+    </div>
+
+    <div id="about-page">
+        <div id="header">
+            <h1>About Us</h1>
+        </div>
+        <div id="content">
+            <div id="overview">
+                <h2>Overview</h2>
+                <p>
+                    Welcome to GuildMe, a platform designed to simplify location-sharing and enhance your connections with friends. Our app allows you to share your real-time location with friends and family, making it easier to meet up, stay connected, and ensure safety.
+                </p>
+            </div>
+            <div id="inspiration">
+                <h2>Inspiration</h2>
+                <p>
+                    GuildMe, a geolocation web application is more than just a project; it's the culmination of my journey through the ALX short specialization, marking the end of an intensive and rewarding learning experience. As I reflect on the skills acquired and the challenges overcome, this project serves as a testament to my growth as a web developer.
+                </p>
+                <p>
+                    The inspiration behind this app goes beyond the technical aspects. It's rooted in the belief that technology has the power to bring people together. In a world where distances seem to grow, GuildMe aims to bridge the gap, fostering meaningful connections and simplifying the way we share our locations.
+                </p>
+                <p>
+                    This project has been a canvas for implementing a range of web development technologies, from front-end frameworks to server-side scripting. It's a showcase of not just coding proficiency but also an understanding of user experience and design principles.
+                </p>
+                <p>
+                    I extend my gratitude to the ALX community and corhort 12 members for the support, mentorship, and collaborative learning environment that has made this project possible. The Geolocation App is not just a portfolio piece; it's a representation of my dedication to continuous improvement and a commitment to creating solutions that make a positive impact.
+                </p>
+                <p></p>
+            </div>
+            <div id="social-links">
+                <a href="https://twitter.com/JamesRa62272775" target="_blank" class="social-icon"><div class="images" id="x"></div></a>
+                <a href="https://github.com/JamesRaphaelJRC/GuildMe_v1.0" target="_blank" class="social-icon"><div class="images" id="github"></div></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        © 2024 GuildMe. All rights reserved.
+    </div>
+</body>
+</html>

@@ -177,7 +177,7 @@ $(document).ready(() => {
               message = `${friend}'s location is currently unavailable.`;
             } else {
               // if 400
-              message = `${friend} did not grant you track access.`;
+              message = `${friend} did not grant you track access or no more exist`;
             }
             socket.emit('send error message', { message });
             accessGranted = false;

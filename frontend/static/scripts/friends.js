@@ -10,7 +10,7 @@ function loadFriends(data) {
   Object.entries(data).forEach(([, value]) => {
     const { username } = value;
     const friend = value.username;
-    const unreadMessages = value.unread_messages;
+    // const unreadMessages = value.unread_messages; remove now let setinterval load unread messages
     const { avatar } = value;
     const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
     let imageThumbnail;
@@ -22,10 +22,10 @@ function loadFriends(data) {
     friendContainer.append(imageThumbnail);
     const nameDiv = $('<div>', { class: 'name', text: username });
     friendContainer.append(nameDiv);
-    if (unreadMessages === true) {
-      const unreadChats = $('<div>', { class: 'unread-chats' });
-      friendContainer.append(unreadChats);
-    }
+    // if (unreadMessages === true) {
+    //   const unreadChats = $('<div>', { class: 'unread-chats' });
+    //   friendContainer.append(unreadChats);
+    // }
     friendlist.append(friendContainer);
   });
 }
@@ -122,9 +122,11 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({ friend }),
         dataType: 'json',
-        success() {
+        success(resp) {
           // should emit reload_friends
-          socket.emit('verify to delete', { friend });
+          const friendId = resp.friend_id;
+          // send friend id to delete conversation obj if both user and friend are no longer friends
+          socket.emit('verify to delete', { friend_id: friendId });
         },
       });
     }
