@@ -1,8 +1,8 @@
 .profile-container {
-    /* border: 1px solid black; */
     position: fixed;
     top: 10vh; /* header height + 2 */
-    left: 75%;
+    /* left: 75%; */
+    right: 10px;
     width: 250px;
     max-height: 40%;
     padding: 0px 10px 15px 10px;
@@ -19,13 +19,13 @@
 
 .profile-container {
     /* display: block; */
-    width: 450px;
+    width: 400px;
     max-height: 90vh;
     height: 80vh;
-    left: 62%;
+    /* left: 62%; */
+    /* right: 20px; */
     background-color: #A3B4C8;
     /* background-color: rgb(255, 255, 255, 0.5); */
-    /* padding: 10px; */
 }
 
 .close-popup {
@@ -40,7 +40,7 @@
 }
 
 #intro {
-    width: 250px;
+    width: 200px;
     /* border: 1px solid saddlebrown; */
     margin-top: 20px;
     height: fit-content;

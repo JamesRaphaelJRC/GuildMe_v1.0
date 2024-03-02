@@ -197,6 +197,29 @@ $(document).ready(() => {
     }
   }
 
+  // Handle user search
+  $('#searchbox').on('keypress', function (e) {
+    // checks if the key pressed is enter ( key 13)
+    if (e.which === 13) {
+      const query = $(this).val().trim();
+      if (query) {
+        $.ajax({
+          type: 'POST',
+          url: '/api/user/friends/search',
+          contentType: 'application/json',
+          data: JSON.stringify({ query }),
+          dataType: 'json',
+          success(response) {
+            loadFriends(response);
+          },
+          error(err) {
+            console.log(err);
+          },
+        });
+      }
+    }
+  });
+
   // action when avatar is clicked
   $('#profile-pic').on('click', () => {
     updateUserProfile();

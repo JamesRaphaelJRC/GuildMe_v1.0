@@ -31,6 +31,17 @@ $(document).ready(() => {
         socket.emit('newMessage', { message, friend, room });
       }
       $('.message-box').val('');
+      // check if friend is in chat
+      helperFunctions.friendIsInChat(friend)
+        .then((resp) => {
+          console.log(resp.status);
+          if (resp.status === false) {
+            socket.emit('to reload friendSection', { friend });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     static displayMessage(data) {
@@ -109,12 +120,14 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({ friend, status }),
         dataType: 'json',
-        success: () => {},
+        success: () => {
+          // socket.emit('to reload friendSection', { friend });
+        },
         error: (err) => { console.log(err); },
       });
     }
 
-    static userIsInChat(friend) {
+    static friendIsInChat(friend) {
       return new Promise((resolve, reject) => {
         $.ajax({
           type: 'POST',
@@ -133,64 +146,52 @@ $(document).ready(() => {
     }
 
     static reloadFriends() {
-      setInterval(() => {
-        if (isChatSectionOpen === false) {
-          lastVisitedFriend = '';
-          helperFunctions.updateUserChatLocation(friend, false);
-        }
+      if (isChatSectionOpen === false) {
+        lastVisitedFriend = '';
+        helperFunctions.updateUserChatLocation(friend, false);
+      }
 
-        $.ajax({
-          url: '/api/user/friends',
-          type: 'GET',
-          success(resp) {
-            const friendlist = $('.friendlist');
-            friendlist.empty(); // clears the friend-section
-            Object.entries(resp).forEach(([, value]) => {
-              const { username } = value;
-              const friend = value.username;
-              const unreadMessages = value.unread_messages;
-              const { avatar } = value;
-              const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
-              let imageThumbnail;
-              if (avatar) {
-                imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
-              } else {
-                imageThumbnail = $('<img class="images avatar" src="static/images/icons8-avatar-96.png">');
-              }
-              friendContainer.append(imageThumbnail);
-              const nameDiv = $('<div>', { class: 'name', text: username });
-              friendContainer.append(nameDiv);
-              if (unreadMessages === true) {
-                helperFunctions.userIsInChat(friend)
-                  .then((resp) => {
-                    if (resp.status === false) {
-                      const unreadChats = $('<div>', { class: 'unread-chats' });
-                      friendContainer.append(unreadChats);
-                    }
-                  })
-                  .catch(() => {});
-              }
-              friendlist.append(friendContainer);
-            });
-          },
-          error(error) { console.log(error); },
-        });
-      }, 5000);
+      $.ajax({
+        url: '/api/user/friends',
+        type: 'GET',
+        success(resp) {
+          const friendlist = $('.friendlist');
+          friendlist.empty(); // Clears the friend-section
+
+          Object.entries(resp).forEach(([, value]) => {
+            const { username, unread_messages, avatar } = value;
+            const friend = value.username;
+
+            const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
+
+            let imageThumbnail;
+            if (avatar) {
+              imageThumbnail = $(`<img class="images avatar" src="static/${avatar}">`);
+            } else {
+              imageThumbnail = $('<img class="images avatar" src="static/images/icons8-avatar-96.png">');
+            }
+
+            friendContainer.append(imageThumbnail);
+
+            const nameDiv = $('<div>', { class: 'name', text: username });
+            friendContainer.append(nameDiv);
+
+            if (unread_messages === true) {
+              const unreadChats = $('<div>', { class: 'unread-chats' });
+              friendContainer.append(unreadChats);
+            }
+
+            friendlist.append(friendContainer);
+          });
+        },
+        error(error) {
+          console.log(error);
+        },
+      });
     }
   }
-
-  helperFunctions.reloadFriends();
+  helperFunctions.updateUserChatLocation(friend, false);
   helperFunctions.closeChatSection();
-
-  $(document).on('mouseup', (event) => {
-    const isInsideChatSection = $(event.target).closest('.chat-section').length > 0;
-
-    if (!isInsideChatSection && isChatSectionOpen) {
-      helperFunctions.closeChatSection();
-      helperFunctions.updateUserChatLocation(friend, false);
-      lastVisitedFriend = '';
-    }
-  });
 
   // Event delegation to the .friendlist for the .friend-container elements
   $('.friendlist').on('click', '.friend-container', function () {
@@ -198,11 +199,41 @@ $(document).ready(() => {
     $('#chat').empty(); // clears the chat area
     $('.message-box').val('');
 
+    $(document).on('mouseup', (event) => {
+      const isInsideChatSection = $(event.target).closest('.chat-section').length > 0;
+
+      if (!isInsideChatSection && isChatSectionOpen) {
+        helperFunctions.closeChatSection();
+        helperFunctions.updateUserChatLocation(friend, false);
+        lastVisitedFriend = friend;
+      }
+    });
+
     // retrieve friend from the friendlist
     friend = $(this).data('friend');
     $('.friend-name').empty();
-    $('.friend-name').append(friend);
+    $('.friend-name').append(friend); // set friend name to chat header
 
+    // Closes the chatbox
+    $(document).on('click', (event) => {
+      const chatSection = $('.chat-section')[0]; // Get the raw DOM element
+      const friendContainer = $('.friend-container')[0]; // Get the raw DOM element
+      // const allNotification = $('.all-notifications')[0];
+
+      // Check if the target is not the above variables
+      if (!chatSection.contains(event.target)
+          && !friendContainer.contains(event.target)
+          && lastVisitedFriend !== friend // incase user clicks from 1 friend to another
+          // && !allNotification.contains(event.target)
+      ) {
+        helperFunctions.closeChatSection();
+        // set user is in chat status with friend to false
+        helperFunctions.updateUserChatLocation(friend, false);
+        lastVisitedFriend = friend;
+      }
+    });
+
+    // instantiate options for friend
     $('#mySelect').empty();
     $('#mySelect').append('<option style="display: none;"></option>');
     const option = `<option id='to-track' data-friend=${friend}>allow track</option>`;
@@ -222,11 +253,12 @@ $(document).ready(() => {
       .then((resp) => {
         room = resp.conversation_id; // sets the room to be conversation id
         helperFunctions.markReceivedMessagesAsRead(resp);
+        socket.emit('to reload userfriendList');
 
         // User joins the room
         socket.emit('join', { friend, room });
       })
-      .catch((error) => {
+      .catch(() => {
         const message = 'Friend does not exist anymore';
         socket.emit('send error message', { message });
       });
@@ -261,5 +293,13 @@ $(document).ready(() => {
       });
       loaded = true;
     }
+  });
+
+  socket.on('reload friend section', () => {
+    helperFunctions.reloadFriends();
+  });
+
+  socket.on('reload user friend section', () => {
+    helperFunctions.reloadFriends();
   });
 });

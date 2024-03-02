@@ -8,6 +8,7 @@ $(document).ready(() => {
   let userLatLong;
   const legend = $('#legend');
   let friend;
+  let stoppedSpinning = false;
 
   $('#pincher').draggable({
     containment: 'parent', // Restrict dragging within the container
@@ -25,6 +26,7 @@ $(document).ready(() => {
 
       map.whenReady(() => {
         // Add any layers or markers here
+        // eslint-disable-next-line no-use-before-define
         showUserOnMap();
       });
     }
@@ -38,6 +40,11 @@ $(document).ready(() => {
     if (map && userMarker && !map.hasLayer(userMarker)) {
       // Update the position of the existing user marker
       userMarker.addTo(map);
+
+      if (!stoppedSpinning) {
+        $('.map-section .loading-spinner').hide();
+        stoppedSpinning = true;
+      }
     }
   }
 
@@ -58,6 +65,7 @@ $(document).ready(() => {
 
   function updateUserLocation(position) {
     $('#pincher').show();
+
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     locationThumbnail.css('background-image', 'url(static/images/location-on-48.png)');
@@ -72,9 +80,12 @@ $(document).ready(() => {
       contentType: 'application/json',
       data: JSON.stringify({ latitude, longitude }),
       dataType: 'json',
-      success: showUserOnMap,
+      success() {
+        showUserOnMap();
+      },
       error: (err) => {
         console.log(err);
+        $('.map-section .loading-spinner').hide();
       },
     });
   }
@@ -83,6 +94,8 @@ $(document).ready(() => {
     locationThumbnail.css('background-image', 'url(static/images/location-off.gif)');
     locationThumbnail.attr('title', 'Reload browser to turn on your location');
     const message = 'Location services disabled. To enable, please go to your browser settings and allow location access for this site.';
+
+    $('.map-section .loading-spinner').hide(); // loading spin
 
     // for the profile page location status update
     $('#location-stat').css('background-image', 'url(static/images/icons8-off-48.png)');
@@ -151,6 +164,7 @@ $(document).ready(() => {
         }).addTo(map);
       }
     }
+    $('.map-section .loading-spinner').hide(); // hide loading spin
   }
 
   /**
@@ -172,6 +186,7 @@ $(document).ready(() => {
             loadOnMap(friendLatLong);
           },
           error: (resp) => {
+            $('.map-section .loading-spinner').hide(); // hide loading spin
             let message;
             if (resp.status === 404) {
               message = `${friend}'s location is currently unavailable.`;
@@ -190,6 +205,7 @@ $(document).ready(() => {
   }
 
   if (navigator.geolocation) {
+    $('.map-section .loading-spinner').show(); // loading spin
     geoLocationId = navigator.geolocation.watchPosition(
       updateUserLocation,
       sendError,
@@ -205,6 +221,7 @@ $(document).ready(() => {
 
     $('#compass').on('click', () => {
       clearInterval(intervalId); // clear prev interval as user clicks from one friend to another
+      $('.map-section .loading-spinner').show(); // show loading spin
       getFriendLocation(friend);
     });
 
