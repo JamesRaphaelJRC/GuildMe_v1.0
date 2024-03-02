@@ -82,12 +82,13 @@ def update_user_is_in_chat() -> str:
                 db.update_conversation(conv_id, is_in_chat=data)
                 return jsonify({"update": "success"})
     # sets all is_in_chat property of user to false if no friend
+    # means user has not clicked on any friend
     db.unmark_user_is_in_chats(user_id)
     return jsonify({"update": "All set to false"})
 
 
 @api.route('/isInChat', methods=['POST'])
-def user_is_in_chat() -> str:
+def friend_is_in_chat() -> str:
     ''' POST api/user/isInChat
     '''
     friend = request.get_json().get('friend')
@@ -95,6 +96,6 @@ def user_is_in_chat() -> str:
     friend = db.find_user_by(username=friend)
     if friend:
         friend_id = friend.id
-        status = CHOICE.user_currently_in_chat(user_id, friend_id)
+        status = CHOICE.friend_currently_in_chat(user_id, friend_id)
         return jsonify({"status": status})
     return jsonify({"error": "Invalid credentials"}), 400

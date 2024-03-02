@@ -3,6 +3,7 @@
 '''
 from typing import Union, TypeVar, List, Dict
 import os
+import re
 from pymongo import MongoClient
 from bson import InvalidDocument
 from pymongo.errors import OperationFailure, WriteError
@@ -45,7 +46,7 @@ class DB:
         user = User(**kwargs)
 
         original_path = 'frontend/static/images/icons8-avatar-96.png'
-        new_path =  f'frontend/static/uploads/avatars/{user.id}.png'
+        new_path = f'frontend/static/uploads/avatars/{user.id}.png'
         if utils.copy_and_rename_file(original_path, new_path):
             user.avatar = f'uploads/avatars/{user.id}.png'
 
@@ -114,7 +115,7 @@ class DB:
         try:
             # Delete the user from the database
             deleted_user_id = self._users.delete_one({'id': user_id})
-            
+
             if deleted_user_id.deleted_count == 0:
                 return False
 
@@ -128,7 +129,6 @@ class DB:
         except Exception as e:
             print(f"Error: {e}")
             return False
-
 
     def new_conversation(self, user1_id: str, user2_id: str)\
             -> Union[Conversation, None]:
@@ -351,7 +351,7 @@ class DB:
 
         username = user.username
         update_path = f'is_in_chat.{username}'
-        
+
         try:
             self._conversations.update_many(
                 {'participants': {'$in': [user_id]}},
@@ -376,7 +376,7 @@ class DB:
         friends = user.friends
         if not friends:
             return False
-        friend_ids = [ id for id in friends.keys()]
+        friend_ids = [id for id in friends.keys()]
 
         updated = False
         for id in friend_ids:
@@ -390,7 +390,7 @@ class DB:
                 }
                 allowed_tracks = friend.allowed_tracks
                 allowed_tracks[user.id] = updated_user_data
-                self.update_user(friend.id, allowed_tracks = allowed_tracks)
+                self.update_user(friend.id, allowed_tracks=allowed_tracks)
                 updated = True
             # checks for tracking_me
             if user.id in friend.tracking_me:
@@ -416,3 +416,28 @@ class DB:
         if updated is True:
             return True
         return False
+
+    def search_users(self, user_id: str, query: str) -> Union[Dict | None]:
+        ''' Search for friends that match the query string in a given user
+        document
+        Return:
+            Dictionary of users that match the query string
+            None otherwise
+        '''
+        if not is_str_and_not_None([user_id, query]):
+            return None
+
+        user = self.find_user_by(id=user_id)
+        if not user:
+            return None
+
+        user_friends = user.friends
+        s_query = query.lower()
+
+        return {
+            f_id: friend for f_id, friend in user_friends.items() if
+            re.search(re.escape(s_query), friend.get('username', ''),
+                      re.IGNORECASE)
+            or re.search(re.escape(s_query), friend.get('email', ''),
+                         re.IGNORECASE)
+            }

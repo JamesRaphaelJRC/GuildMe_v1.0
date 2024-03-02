@@ -21,7 +21,7 @@ def get_user_friends():
     user_dict = user.to_dict()
     friends = user_dict.get('friends')
     for friend in friends.values():
-        # adds new key/value
+        # adds new key/value for unread messages
         if AUTH.has_unread_messages(user.id, friend.get('id')):
             friend["unread_messages"] = True
         else:
@@ -139,3 +139,17 @@ def get_friend_location():
         return jsonify({"error": "Invalid friend/ no track access"}), 400
     if location is False:
         return jsonify({"error": "Friend has no location"}), 404
+
+
+@api.route('/friends/search', methods=['POST'])
+def search_friends():
+    ''' POST /api/user/friends/search
+    Handles search friend request
+    '''
+    user = AUTH.authenticate_user()
+    query = str(request.get_json().get('query'))
+    if query:
+        friends = db.search_users(user.id, query)
+        if friends is not None:  # also returns when friends is {}
+            return jsonify(friends)
+    return jsonify({'error': 'Empty or invalid search query'}), 400

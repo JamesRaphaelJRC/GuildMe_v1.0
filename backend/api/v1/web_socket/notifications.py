@@ -110,6 +110,8 @@ def handle_accepted_friend_request(data):
                 }, room=user.id)
             # reload the general notifications of the friend
             emit('reload_general_notification', room=friend_id)
+            emit('reload friend section', room=friend_id)
+            emit('reload user friend section', room=user.id)
 
         # delete the friend request notification
         status = redis_client.delete_notification(user.id, notification_id)
@@ -228,3 +230,24 @@ def reload_profile(data):
     if friend:
         emit('profile reload', room=friend.id)
         emit('profile reload', room=user_id)
+
+
+@socket_io.on('to reload friendSection')
+def reload_friend_section(data):
+    ''' reloads friend section of a friend
+    '''
+    friend = data.get('friend')
+    print(friend)
+
+    if friend:
+        friend_obj = db.find_user_by(username=friend)
+        if friend_obj:
+            friend_id = friend_obj.id
+            emit('reload friend section', room=friend_id)
+    return
+
+@socket_io.on('to reload userfriendList')
+def reload_user_friend_section():
+    ''' reloads user friend section '''
+    user_id = AUTH.authenticate_user().id
+    emit('reload user friend section', room=user_id)

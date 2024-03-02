@@ -177,18 +177,18 @@ class Choice:
         '''
         return self._db.new_conversation(user_id, friend_id).id
 
-    def user_currently_in_chat(self, user_id: str, friend_id: str) -> bool:
-        ''' Verifies if a user is currently in the chatbox of chat with
-        friend in the Conversation object in the database
+    def friend_currently_in_chat(self, user_id: str, friend_id: str) -> bool:
+        ''' Verifies if a friend is currently in the chatbox of chat with
+        user in the Conversation object in the database
         Return:
             True if user is in the chat space
             False otherwise
         '''
-        users_name = self._db.find_user_by(id=user_id).username
+        friend_name = self._db.find_user_by(id=friend_id).username
         participants = [user_id, friend_id]
         conversation = self._db.find_conversation_by(participants=participants)
         is_in_chat = conversation.is_in_chat
-        status = is_in_chat.get(users_name, False)
+        status = is_in_chat.get(friend_name, False)
         if status is True:
             return True
         return False
