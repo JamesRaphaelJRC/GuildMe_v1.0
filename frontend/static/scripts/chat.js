@@ -159,7 +159,8 @@ $(document).ready(() => {
           friendlist.empty(); // Clears the friend-section
 
           Object.entries(resp).forEach(([, value]) => {
-            const { username, unread_messages, avatar } = value;
+            const { username, avatar } = value;
+            const unreadMessages = value.unread_messages;
             const friend = value.username;
 
             const friendContainer = $('<div>', { class: 'friend-container', 'data-friend': friend });
@@ -176,7 +177,7 @@ $(document).ready(() => {
             const nameDiv = $('<div>', { class: 'name', text: username });
             friendContainer.append(nameDiv);
 
-            if (unread_messages === true) {
+            if (unreadMessages === true) {
               const unreadChats = $('<div>', { class: 'unread-chats' });
               friendContainer.append(unreadChats);
             }
