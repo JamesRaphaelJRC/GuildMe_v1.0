@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const socket = io();
+  const socket = io('http://localhost:8000');
   let friend;
   let room;
   let lastVisitedFriend = '';

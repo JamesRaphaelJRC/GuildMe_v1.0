@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ''' Websocket notification module '''
 from flask import jsonify, request
-from flask_socketio import emit, join_room, leave_room
+from flask_socketio import emit, join_room, disconnect
 from backend.api.v1.web_socket import socket_io
 from backend.auth import AUTH
 from backend.db_ops import db
@@ -16,16 +16,19 @@ def handle_connection():
     room name == the user id. Thus every user have a room where he receives
     notifications
     '''
-    user_id = AUTH.authenticate_user().id
-    join_room(user_id)
+    try:
+        user_id = AUTH.authenticate_user().id
+        join_room(user_id)
 
-    # check if user has unread notification and alert if true
-    unread_notifications = redis_client.get_unread_notifications(user_id)
-    if len(unread_notifications) > 0:
-        emit('alert_user', room=user_id)
+        # check if user has unread notification and alert if true
+        unread_notifications = redis_client.get_unread_notifications(user_id)
+        if len(unread_notifications) > 0:
+            emit('alert_user', room=user_id)
 
-    # deletes every message > threshold day
-    redis_client.delete_read_notifications_older_than(user_id, 15)
+        # deletes every message > threshold day
+        redis_client.delete_read_notifications_older_than(user_id, 15)
+    except Exception:
+        disconnect()  # disconnect if user is not authenticated
 
 
 @socket_io.on('new_friend_request')
