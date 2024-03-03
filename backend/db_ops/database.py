@@ -30,7 +30,8 @@ class DB:
     '''
     def __init__(self) -> None:
         ''' Initialize new DB instance '''
-        self._client = MongoClient('mongodb://127.0.0.1:27017')
+        uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
+        self._client = MongoClient(uri)
         self._users = self._client.test_db.users
         self._conversations = self._client.test_db.conversations
 
