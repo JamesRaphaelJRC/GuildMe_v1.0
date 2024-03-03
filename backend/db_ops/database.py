@@ -18,7 +18,7 @@ from backend.models.messages import Message
 # load_dotenv()
 OBJECT_TYPES = Union[TypeVar('User'), TypeVar('Conversation')]
 CLASSES = ['User', 'Conversation']
-uri = "mongodb+srv://jamesraphaeljrc:Giantstep1@guildme.vul6smp.mongodb.net/?retryWrites=true&w=majority&appName=guildme"
+uri = "mongodb+srv://jamesraphaeljrc:1HQBZCmknGU29f6i@guildme.vul6smp.mongodb.net/?retryWrites=true&w=majority&appName=guildme"
 
 
 def is_str_and_not_None(variables: List) -> bool:
@@ -36,7 +36,7 @@ class DB:
     def __init__(self) -> None:
         ''' Initialize new DB instance '''
         # uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
-        self._client = MongoClient(uri, server_api=ServerApi('1'))
+        self._client = MongoClient(uri)
         self._users = self._client.test_db.users
         self._conversations = self._client.test_db.conversations
 
