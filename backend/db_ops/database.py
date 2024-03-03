@@ -10,11 +10,11 @@ from pymongo.errors import OperationFailure, WriteError
 from backend.models.users import User
 from backend.models.conversations import Conversation
 from backend.models.messages import Message
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 
 # load .env
-load_dotenv()
+# load_dotenv()
 OBJECT_TYPES = Union[TypeVar('User'), TypeVar('Conversation')]
 CLASSES = ['User', 'Conversation']
 
@@ -33,8 +33,10 @@ class DB:
     '''
     def __init__(self) -> None:
         ''' Initialize new DB instance '''
-        uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
-        self._client = MongoClient(uri)
+        # uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
+        self._client = MongoClient(
+            "mongodb+srv://jamesraphaeljrc:Giantstep1@guildme.vul6smp.mongodb.net/?retryWrites=true&w=majority&appName=guildme"
+        )
         self._users = self._client.test_db.users
         self._conversations = self._client.test_db.conversations
 
