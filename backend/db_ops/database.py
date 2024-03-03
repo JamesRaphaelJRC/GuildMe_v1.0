@@ -10,8 +10,11 @@ from pymongo.errors import OperationFailure, WriteError
 from backend.models.users import User
 from backend.models.conversations import Conversation
 from backend.models.messages import Message
+from dotenv import load_dotenv
 
 
+# load .env
+load_dotenv()
 OBJECT_TYPES = Union[TypeVar('User'), TypeVar('Conversation')]
 CLASSES = ['User', 'Conversation']
 

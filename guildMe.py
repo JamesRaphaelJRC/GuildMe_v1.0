@@ -8,7 +8,7 @@ from flask_cors import CORS
 from backend.views import user_views, pub_views
 from backend.api.v1.routes import api
 from backend.api.v1.web_socket.chat import socket_io
-import requests
+
 
 # Loads the .env file
 load_dotenv()
@@ -20,7 +20,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app, resources={r"backend/api/v1/*": {"origins": "*"}})
-
 
 # Initialize flask app with SockeIO
 socket_io.init_app(app, cors_allowed_origins="*")
