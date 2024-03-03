@@ -34,14 +34,13 @@ $(document).ready(() => {
       // check if friend is in chat
       helperFunctions.friendIsInChat(friend)
         .then((resp) => {
-          console.log(resp.status);
           if (resp.status === false) {
             socket.emit('to reload friendSection', { friend });
           }
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      // .catch((err) => {
+      // console.log(err);
+      // });
     }
 
     static displayMessage(data) {

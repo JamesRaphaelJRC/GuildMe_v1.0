@@ -135,6 +135,7 @@ footer {
     height: 25px;
     width: 25px;
     background-image: url(../images/location-off.gif);
+    cursor: pointer;
 }
 
 /* Style for slider container */
@@ -199,34 +200,43 @@ Move thumb to the right when checkbox is checked
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    color: red;
     font-size: 14px;
     font-weight: 700;
     /* border: 1px solid white; */
     background-image: url(../images/icons8-notification-96.png);
-    /* background-image: url(../images/icons8-bell.gif); */
+    cursor: pointer;
 }
 
 .avatar {
     width: 40px;
     height: 40px;
-    /* border: 1px solid white; */
     border-radius: 50%;
-    /* background-image: url(../images/icons8-avatar-96.png); */
+    cursor: pointer;    
 }
 
-#logout-select {
+#menu1 {
     width: 20px;
     height: 20px;
-    background-color: inherit;
-    border: hidden;
-    /* border-radius: 50%; */
-    color: white;
-    font-weight: 800;
+    background-image: url(../images/3dotsmenu.png);
+    cursor: pointer;
+}
+
+#menu1:hover {
+    background-image: url(../images/3dotsred.png);
+}
+
+.small-menu-box {
+    top: 8vh;
+    right: 8px;
+    padding: 10px;
+    position: absolute;
+    background-color: #052b31;
+    display: none;
 }
 
 #logout {
-    background-color: #823f99;
+    padding: 10px;
+    cursor: pointer;
 }
 /* .expand {
     width: 20px;

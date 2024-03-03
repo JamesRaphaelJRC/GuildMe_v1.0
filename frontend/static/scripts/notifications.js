@@ -222,19 +222,36 @@ $(document).ready(() => {
   });
 
   // Handle user logout
-  $('#logout').on('click', () => {
-    $.ajax({
-      type: 'GET',
-      url: '/user/logout',
-      contentType: 'application/json',
-      success(response) {
-        if (response.redirect) {
-          window.location.href = response.redirect;
-        }
-      },
-      error: () => {
-        console.error();
-      },
+  $('#menu1').on('click', (event) => {
+    event.stopPropagation();
+
+    $('.small-menu-box').show();
+    $('.notification-box').hide();
+    $('.profile-container').hide();
+
+    // Closes the small-menu-box container
+    $(document).on('click', (event) => {
+      const menuBox = $('.small-menu-box')[0];
+      const logout = $('#logout')[0];
+      if (!menuBox.contains(event.target) && (!logout.contains(event.target))) {
+        $('.small-menu-box').hide();
+      }
+    });
+
+    $('#logout').on('click', () => {
+      $.ajax({
+        type: 'GET',
+        url: '/user/logout',
+        contentType: 'application/json',
+        success(response) {
+          if (response.redirect) {
+            window.location.href = response.redirect;
+          }
+        },
+        error: () => {
+          console.error();
+        },
+      });
     });
   });
 

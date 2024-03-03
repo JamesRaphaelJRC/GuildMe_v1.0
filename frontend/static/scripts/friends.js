@@ -6,6 +6,7 @@ function resetSelect() {
 }
 
 function loadFriends(data) {
+  $('.friendlist').empty(); // clears the list first
   const friendlist = $('.friendlist');
   Object.entries(data).forEach(([, value]) => {
     const { username } = value;
@@ -198,25 +199,26 @@ $(document).ready(() => {
   }
 
   // Handle user search
-  $('#searchbox').on('keypress', function (e) {
+  $('#searchbox').on('input', function () {
     // checks if the key pressed is enter ( key 13)
-    if (e.which === 13) {
-      const query = $(this).val().trim();
-      if (query) {
-        $.ajax({
-          type: 'POST',
-          url: '/api/user/friends/search',
-          contentType: 'application/json',
-          data: JSON.stringify({ query }),
-          dataType: 'json',
-          success(response) {
-            loadFriends(response);
-          },
-          error(err) {
-            console.log(err);
-          },
-        });
-      }
+    const query = $(this).val().trim();
+
+    if (query.length === 0) {
+      reloadFriends();
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: '/api/user/friends/search',
+        contentType: 'application/json',
+        data: JSON.stringify({ query }),
+        dataType: 'json',
+        success(response) {
+          loadFriends(response);
+        },
+        error(err) {
+          console.log(err);
+        },
+      });
     }
   });
 
