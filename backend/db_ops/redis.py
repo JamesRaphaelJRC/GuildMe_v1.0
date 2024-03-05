@@ -30,43 +30,11 @@ def calc_days_diff(date_str: str) -> int:
 
 class RedisClient:
     ''' Redis client database operations '''
-    def __init__(self, app=None) -> None:
+    def __init__(self) -> None:
         ''' Instantiatiate a new RedisClient '''
-        self.redis_url = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-        self._redis_client = None
-        # host = os.environ.get('REDIS_HOST')
-        # port = os.environ.get('REDIS_PORT')
-        # password = os.environ.get('REDIS_PASSWORD')
-        # self._redis_client = (host, port, password)
-
-        if app:
-            self.init_app(app)
-
-    def init_app(self, app):
-        # Connect to Redis when the Flask app is initialized
-        app.teardown_appcontext(self.disconnect)
-        self.connect()
-
-    def connect(self):
-        try:
-            self._redis_client = redis.StrictRedis.from_url(
-                self.redis_url, decode_responses=True)
-            # Test the connection
-            self._redis_client.ping()
-            print("Connected to Redis.")
-        except redis.ConnectionError as e:
-            print(f"Error connecting to Redis: {e}")
-
-    def disconnect(self, exception=None):
-        try:
-            if self._redis_client:
-                self._redis_client.close()
-                print("Disconnected from Redis.")
-        except redis.ConnectionError as e:
-            print(f"Error disconnecting from Redis: {e}")
-
-    def get_redis_client(self):
-        return self._redis_client
+        redis_url =  os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+        self._redis_client = redis.StrictRedis.from_url(
+            redis_url, decode_responses=True)
 
     def new_notification(self, sender_id: str, receiver_id: str, message: str,
                          not_type: str, read=False) ->\

@@ -8,7 +8,6 @@ from flask_cors import CORS
 from backend.views import user_views, pub_views
 from backend.api.v1.routes import api
 from backend.api.v1.web_socket.chat import socket_io
-from backend.db_ops.redis import RedisClient
 
 
 # Loads the .env file
@@ -24,8 +23,6 @@ CORS(app, resources={r"backend/api/v1/*": {"origins": "*"}})
 
 # Initialize flask app with SockeIO
 socket_io.init_app(app, async_mode='gevent', cors_allowed_origins="*")
-
-redis_client = RedisClient(app)
 
 # Set global strict slashes
 app.url_map.strict_slashes = False
