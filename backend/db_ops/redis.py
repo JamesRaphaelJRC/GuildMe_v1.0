@@ -30,7 +30,7 @@ def calc_days_diff(date_str: str) -> int:
 
 class RedisClient:
     ''' Redis client database operations '''
-    def __init__(self) -> None:
+    def __init__(self, app=None) -> None:
         ''' Instantiatiate a new RedisClient '''
         # redis_url =  os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
         # self._redis_client = redis.StrictRedis.from_url(
