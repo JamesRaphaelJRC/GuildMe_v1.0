@@ -171,3 +171,28 @@ input[type="submit"] {
     font-weight: 700;
     cursor: pointer;
 }
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    .profile-container {
+        position: relative;
+        width: 100%;
+        top: 0px;
+        z-index: 1000;
+        background-color: inherit;
+        height: auto;
+    }
+
+    #intro {
+        background-color: inherit;
+    }
+
+    #new-avatar {
+        top: 24%;
+        right: 60%;
+    }
+
+    #cancel {
+        margin-top: 20px;
+    }
+}

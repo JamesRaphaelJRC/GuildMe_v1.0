@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const socket = io('http://localhost:8000');
+  const socket = io('http://127.0.0.1:8000');
   let loadedFriendRequests = false;
 
   class Helpers {
@@ -87,22 +87,36 @@ $(document).ready(() => {
         });
       }
     }
+
+    static addCurrentNavProperties(element) {
+      $(`${element}`).css('text-decoration', 'underline');
+      $(`${element}`).css('background-color', '#072122');
+    }
+
+    static removeCurrentNavProperties(element) {
+      $(`${element}`).css('text-decoration', 'none');
+      $(`${element}`).css('background-color', 'inherit');
+    }
   }
 
   // Handles user click on add friend icon
-  $('#add-friend-box').on('click', '#add-icon', (event) => {
+  $('#add-friend-box, .mob-add-friend-box').on('click', '#add-icon, .images.mobile#add-icon', (event) => {
     $('#add-friend-input').show();
+    $('.mobile#add-friend-input').show();
+    $('.input-cont').css('display', 'flex');
+
     event.stopPropagation();
 
-    $('#add-friend-input').on('keypress', (e) => {
+    $('#add-friend-input, .mobile#add-friend-input').on('keypress', (e) => {
       if (e.which === 13) {
-        const userInput = $('#add-friend-input').val().trim();
+        const userInput = $('#add-friend-input, .mobile#add-friend-input').val().trim();
         socket.emit('new_friend_request', { data: userInput });
       }
     });
 
+    // for mobile view
     $('.label-btn').on('click', () => {
-      const userInput = $('#add-friend-input').val().trim();
+      const userInput = $('.mobile#add-friend-input').val().trim();
       socket.emit('new_friend_request', { data: userInput });
     });
 
@@ -110,9 +124,18 @@ $(document).ready(() => {
     $(document).on('click', (event) => {
       const addIcon = $('#add-icon')[0]; // Get the raw DOM element
       const addFriendInput = $('#add-friend-input')[0]; // Get the raw DOM element
+      const mobAddIcon = $('.images.mobile#add-icon')[0];
+      const labelBtn = $('.label-btn')[0];
+      const mobAddFriendInput = $('.mobile#add-friend-input')[0];
       // Check if the target is not #add-icon, its descendant, or #add-friend-input
-      if (!addIcon.contains(event.target) && !addFriendInput.contains(event.target)) {
+      if (!addIcon.contains(event.target)
+          && !addFriendInput.contains(event.target)
+          && !mobAddIcon.contains(event.target)
+          && !mobAddFriendInput.contains(event.target)
+          && !labelBtn.contains(event.target)) {
         $('#add-friend-input').hide();
+        $('.mobile#add-friend-input').hide();
+        $('.input-cont').hide();
       }
     });
   });
@@ -164,9 +187,14 @@ $(document).ready(() => {
     });
   });
 
-  $('#profile-pic').on('click', (event) => {
+  $('#profile-pic, #profile-nav').on('click', (event) => {
     $('.profile-container').show();
+    Helpers.addCurrentNavProperties('#profile-nav');
     $('.notification-box').hide();
+    Helpers.removeCurrentNavProperties('#dashboard');
+    Helpers.removeCurrentNavProperties('#friends');
+    $('section.friend-section').hide(); // hide friend section in mobile
+
     event.stopPropagation();
 
     $('#closePopup').on('click', () => {
@@ -183,6 +211,8 @@ $(document).ready(() => {
           && !profileContainer.contains(event.target)
       ) {
         $('.profile-container').hide();
+        Helpers.removeCurrentNavProperties('#profile-nav');
+        Helpers.addCurrentNavProperties('#dashboard');
       }
     });
 
@@ -288,5 +318,52 @@ $(document).ready(() => {
 
   socket.on('reload_general_notification', () => {
     Helpers.loadGeneralNotifications();
+  });
+
+  // mobile view actions
+
+  Helpers.addCurrentNavProperties('#dashboard'); // default when page loads in mobile screen size
+
+  $('#dashboard').on('click', () => {
+    Helpers.addCurrentNavProperties('#dashboard');
+    Helpers.removeCurrentNavProperties('#friends');
+    Helpers.removeCurrentNavProperties('#profile-nav');
+    ('#profile-nav').hide();
+    ('#friends').hide();
+  });
+
+  // remove current nav properties from dashboard when friends and profile are clicked on
+  $(document).on('click', (event) => {
+    const friendsNav = $('#friends')[0];
+    const profileNav = $('#profile')[0];
+    if (friendsNav.contains(event.target) && (profileNav.contains(event.target))) {
+      Helpers.removeCurrentNavProperties('#dashboard');
+    } else {
+      Helpers.removeCurrentNavProperties('#friends');
+    }
+  });
+
+  $('#friends').on('click', () => {
+    Helpers.removeCurrentNavProperties('#dashboard');
+    Helpers.removeCurrentNavProperties('#profile-nav');
+    Helpers.addCurrentNavProperties('#friends');
+    $('section.friend-section').show();
+    $('.profile-container').hide();
+
+    $(document).on('click', (event) => {
+      const friendsNav = $('#friends')[0];
+      const friendContainer = $('.friend-container')[0];
+      const friendSection = $('.friend-section')[0];
+      const chatSection = $('.chat-section')[0];
+
+      if (!friendsNav.contains(event.target)
+          && !friendContainer.contains(event.target)
+          && !friendSection.contains(event.target)
+          && !chatSection.contains(event.target)) {
+        Helpers.removeCurrentNavProperties('#friends');
+        Helpers.addCurrentNavProperties('#dashboard');
+        $('section.friend-section').hide();
+      }
+    });
   });
 });

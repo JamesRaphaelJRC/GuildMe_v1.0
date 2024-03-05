@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const socket = io('http://localhost:8000');
+  const socket = io('http://127.0.0.1:8000');
   let map;
   let routingControl;
   const locationThumbnail = $('#location-thumb');
@@ -222,6 +222,7 @@ $(document).ready(() => {
     $('#compass').on('click', () => {
       clearInterval(intervalId); // clear prev interval as user clicks from one friend to another
       $('.map-section .loading-spinner').show(); // show loading spin
+      $('.map-section').show(); // for mobile view
       getFriendLocation(friend);
     });
 
@@ -230,15 +231,22 @@ $(document).ready(() => {
       const chatbox = $('.chat-section')[0];
       const mapContainer = $('#map')[0]; // Get the raw DOM element
       const pincher = $('#pincher')[0];
+      const mapSection = $('.map-section')[0];
       // Check if the target is not #add-icon, its descendant, or #add-friend-input
       if (!friendContainer.contains(event.target)
           && !chatbox.contains(event.target)
           && !mapContainer.contains(event.target)
-          && !pincher.contains(event.target)) {
+          && !pincher.contains(event.target)
+          && !mapSection.contains(event.target)) {
         clearInterval(intervalId);
         clearMap();
         showUserOnMap();
       }
+    });
+
+    // for mobile view
+    $('.mobile-close-btn.close-popup').on('click', () => {
+      $('.map-section').hide();
     });
   });
 

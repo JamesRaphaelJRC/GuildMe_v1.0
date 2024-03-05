@@ -49,7 +49,7 @@ reloadFriends();
 // AJAX operations
 $(document).ready(() => {
   let loadedUserProfile = false;
-  const socket = io('http://localhost:8000');
+  const socket = io('http://127.0.0.1:8000');
 
   // sends an ajax post request when a user friend request is accepted
   $('.lower').on('click', '.accept', function () {
