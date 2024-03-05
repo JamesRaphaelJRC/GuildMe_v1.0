@@ -56,6 +56,8 @@ def update_user_is_in_chat() -> str:
     Updates is_in_chat property of a conversation between a user and friend
     '''
     user = AUTH.authenticate_user()
+    if not user:
+        return jsonify({'error': 'unauthorized'}), 401
     user_id = user.id
     friend = request.get_json().get('friend')
     status = request.get_json().get('status')

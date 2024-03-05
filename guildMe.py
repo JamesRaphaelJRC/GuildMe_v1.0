@@ -22,7 +22,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app, resources={r"backend/api/v1/*": {"origins": "*"}})
 
 # Initialize flask app with SockeIO
-socket_io.init_app(app, cors_allowed_origins="*")
+socket_io.init_app(app, async_mode='gevent', cors_allowed_origins="*")
 
 # Set global strict slashes
 app.url_map.strict_slashes = False
@@ -81,4 +81,4 @@ def forbidden_error(error) -> str:
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "8000")
-    socket_io.run(app, host=host, port=port, debug=True)
+    socket_io.run(app, host="0.0.0.0", port=port, debug=True)

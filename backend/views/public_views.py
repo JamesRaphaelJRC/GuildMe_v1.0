@@ -93,7 +93,6 @@ def login():
                 # previously visited page after logging out and later logs in
                 next_page = request.args.get('next')
                 if not next_page or urlsplit(next_page).netloc != '':
-                    print('got here')
                     next_page = url_for("user_views.dashboard")
 
                 return response

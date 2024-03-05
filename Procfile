@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet guildMe:app
+web: gunicorn -k gevent guildMe:app

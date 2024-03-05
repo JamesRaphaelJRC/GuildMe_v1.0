@@ -27,14 +27,13 @@ class Utils:
         try:
             # Copy the file to the new name
             shutil.copy(original_path, new_name)
-            print(f"File copied successfully as {new_name}")
             return True
         except FileNotFoundError:
-            print(f"Error: File not found at {original_path}")
+            pass
         except shutil.SameFileError:
-            print("Error: The source and destination files are the same.")
+            pass
         except PermissionError:
-            print("Error: Permission error. Make sure you have the necessary permissions.")
+            pass
         except Exception as e:
-            print(f"Error: {e}")
+            pass
         return False

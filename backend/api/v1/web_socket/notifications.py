@@ -17,16 +17,18 @@ def handle_connection():
     notifications
     '''
     try:
-        user_id = AUTH.authenticate_user().id
-        join_room(user_id)
+        user = AUTH.authenticate_user()
+        if user:
+            user_id = user.id
+            join_room(user_id)
 
-        # check if user has unread notification and alert if true
-        unread_notifications = redis_client.get_unread_notifications(user_id)
-        if len(unread_notifications) > 0:
-            emit('alert_user', room=user_id)
+            # check if user has unread notification and alert if true
+            unread_notifications = redis_client.get_unread_notifications(user_id)
+            if len(unread_notifications) > 0:
+                emit('alert_user', room=user_id)
 
-        # deletes every message > threshold day
-        redis_client.delete_read_notifications_older_than(user_id, 15)
+            # deletes every message > threshold day
+            redis_client.delete_read_notifications_older_than(user_id, 15)
     except Exception:
         disconnect()  # disconnect if user is not authenticated
 
