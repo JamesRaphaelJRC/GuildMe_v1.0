@@ -142,26 +142,3 @@
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
-
-
-/* Mobile responsiveness */
-@media only screen and (max-width: 768px) {
-    .chat-section {
-        margin-top: 0px;
-        margin-left: 30%; /* same with friend section width */
-        width: 69%;
-        gap: 0px;
-        height: 200px;
-        min-height: 0px;
-        z-index: 2;
-    }
-
-    .chat-desc {
-        height: 10%;
-    }
-
-    .chat-container {
-        height: 90%;
-        min-height: 0px;
-    }
-}
