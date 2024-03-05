@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 ''' Redis Database module '''
 import redis
+import os
 from datetime import datetime
 from typing import List, Union, Dict
 import json
@@ -31,8 +32,9 @@ class RedisClient:
     ''' Redis client database operations '''
     def __init__(self) -> None:
         ''' Instantiatiate a new RedisClient '''
-        self._redis_client = redis.StrictRedis(host='localhost', port=6379,
-                                               db=0, decode_responses=True)
+        redis_url =  os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+        self._redis_client = redis.StrictRedis.from_url(
+            redis_url, decode_responses=True)
 
     def new_notification(self, sender_id: str, receiver_id: str, message: str,
                          not_type: str, read=False) ->\

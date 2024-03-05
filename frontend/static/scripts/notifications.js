@@ -124,7 +124,6 @@ $(document).ready(() => {
   // Handle actions when user clicks on the notification bell icon
   $('#notification').on('click', (event) => {
     event.stopPropagation();
-    console.log('clicked')
     $('.profile-container').hide();
     Helpers.stopNotificationBell();
     $('.notification-box').show();

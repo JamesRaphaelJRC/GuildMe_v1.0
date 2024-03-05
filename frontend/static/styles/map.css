@@ -1,7 +1,6 @@
 .map-section {
-    height: 80vh;
+    height: 82.5vh; /* same with friend section */
     width: 80%;
-    /* border: 1px solid rgb(23, 122, 221); */
     margin-left: 20%;
 }
 
