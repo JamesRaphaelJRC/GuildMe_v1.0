@@ -5,7 +5,6 @@ from typing import Union, TypeVar, List, Dict
 import os
 import re
 from pymongo import MongoClient
-from pymongo.server_api import ServerApi
 from bson import InvalidDocument
 from pymongo.errors import OperationFailure, WriteError
 from backend.models.users import User
