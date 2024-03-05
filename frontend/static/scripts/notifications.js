@@ -1,5 +1,7 @@
 $(document).ready(() => {
-  const socket = io('http://127.0.0.1:8000');
+  // const socket = io('http://127.0.0.1:8000');
+  const socket = io(`${window.location.protocol}//${window.location.host}`, { transports: ['websocket'] });
+
   let loadedFriendRequests = false;
 
   class Helpers {
