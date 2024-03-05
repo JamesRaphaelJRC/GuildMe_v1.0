@@ -34,10 +34,10 @@ class RedisClient:
         ''' Instantiatiate a new RedisClient '''
         # redis_url =  os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
         # self._redis_client = redis.StrictRedis.from_url(
-            # redis_url, decode_responses=True)
-        host = os.environ.get('REDIS_HOST', 'localhost')
-        port = os.environ.get('REDIS_PORT', 6379)
-        password = os.environ.get('REDIS_PASSWORD', '')
+        #     redis_url, decode_responses=True)
+        host = os.environ.get('REDIS_HOST')
+        port = os.environ.get('REDIS_PORT')
+        password = os.environ.get('REDIS_PASSWORD')
         self._redis_client = (host, port, password)
 
     def new_notification(self, sender_id: str, receiver_id: str, message: str,
