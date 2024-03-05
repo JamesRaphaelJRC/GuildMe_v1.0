@@ -44,33 +44,12 @@
 <body>
     <header>
         <a href="{{ url_for('pub_views.landing_page') }}"><div class="desk-logo" id="logo">GuildMe<sup><sup><sup>TM</sup></sup></sup></div></a>
-        <!-- <a href="{{ url_for('pub_views.landing_page') }}"><div class="mob-logo" id="logo">GuildMe🌍</div></a> -->
-        <!-- <div class="nav-box"></div> -->
 
         </div>
         <div id="far-right">
-            <!-- <div class="images" id="mob-menu"></div>
-            <div class="mob-dropdown">
-                <div class="drop-cont" id="friends">Friends</div>
-                <div class="drop-cont" id="profile">My Profile</div>
-                <div class="drop-cont" id="mob-logout">Logout</div>
-            </div> -->
             <div class="images" id="location-thumb" title="Current location status"></div>
-            <!-- <div class="not-and-user"> -->
-                <!-- <label class="slider-container">
-                    <input type="checkbox" class="slider-checkbox">
-                    <div class="slider-track"></div>
-                    <div class="slider-thumb"></div>
-                </label> -->
             <div class="images" id="notification" title="My notifications"></div>
             <div class="images avatar" id="profile-pic">
-                {% if user.avatar %}
-                <img class="images avatar" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
-                {% else %}
-                <img class="images avatar" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}">
-                {% endif %}
-            </div>
-            <div class="images avatar" id="mob-profile">
                 {% if user.avatar %}
                 <img class="images avatar" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
                 {% else %}
@@ -84,116 +63,44 @@
             </div>
         </div>
     </header>
-    <div class="mob-nav-panel">
-        <div class="nav" id="dashboard">Dashboard</div>
-        <div class="nav" id="friends">Friends</div>
-        <div class="nav" id="profile-nav">Profile</div>
-        <div class="nav" id="empty"></div>
-        <div class="nav" id="empty"></div>
-    </div>
-    <!-- structure for profile container in mobile view -->
-    <div class="mob-sect-display">
-        <div class="profile-container">
-            <span id="closePopup" class="close-popup">&times;</span>
-            <div class="user-info">
-                <div class="images avatar-mid">
-                    {% if user.avatar %}
-                    <img class="images avatar-mid" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
-                    {% else %}
-                    <img class="images avatar-mid" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}">
-                    {% endif %}
-                    <span id="new-avatar" class="images"></span>
-                </div>
-                <div id="intro">
-                    <h3 class="bookline">{{ user.full_name }}</h3>
-                    <h4 class="fade bookline">@{{ user.username }}</h4>
-                    <h5 class="bookline red">{{ user.email }}</h5>
-                    <h5 class="bookline">Current location status &nbsp;&nbsp;<span class="images" id="location-stat">&nbsp;&nbsp;&nbsp;&nbsp;</span></h5>
-                </div>
-            </div>
-            <div class="bookline"></div>
-            <div class="locale-and-track-info" id="i-track">
-                <h5 class="line-heading">Friends who can see my location</h5>
-                <div class="i-track-disp-cont" id="tracking-me">
-                </div>
-            </div>
-            <div class="locale-and-track-info" id="i-track">
-                <h5 class="line-heading">Friends I can track</h5>
-                <div class="i-track-disp-cont" id="i-can-track">
-                </div>
-            </div>
-            <div class="del-user">Delete account</div>
-            <div class="upload-box" id="upload-container">
-                <div id="form-caption" style="color: #FFB84C;">Upload your avatar</div>
-                <form action="{{ url_for('user_views.upload_file') }}" method=post enctype=multipart/form-data>
-                    <input id="browse" type=file name=file>
-                    <input id="upload" type=submit value=Upload>
-                </form>
-                <button id="cancel">cancel</button>
-            </div>
-        </div>
-    </div>
-    <div class="notification-box">
-        <div class="panel-box">
-            <div class="mid-btn" id="gen-notifications">General</div>
-            <div class="mid-btn" id="friend-requests">Friend requests</div>
-        </div>
-        <div class="all-notifications">
-            <div class="gen-msgs">
-                <div class="gen-message"></div>
-            </div>
-            <div class="friend-req-box">
-                <div class="upper">
-                    <!-- <div class="images avatar"></div>  -->
-                    <!-- <div class="friend-info"></div> -->
-                </div>
-                <div class="lower">
-                    <!-- <div class="mid-btn" class="decline"></div> -->
-                    <!-- <div class="mid-btn" class="accept"></div> -->
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- structure for profile container in desktop view -->
-    <div class="desktop-prof-cont">
-        <div class="profile-container">
-            <span id="closePopup" class="close-popup">&times;</span>
-            <div class="user-info">
-                <div class="images avatar-mid">
-                    {% if user.avatar %}
-                    <img class="images avatar-mid" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
-                    {% else %}
-                    <img class="images avatar-mid" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}">
-                    {% endif %}
-                    <span id="new-avatar" class="images"></span>
-                </div>
-                <div id="intro">
-                    <h3 class="bookline">{{ user.full_name }}</h3>
-                    <h4 class="fade bookline">@{{ user.username }}</h4>
-                    <h5 class="bookline red">{{ user.email }}</h5>
-                    <h5 class="bookline">Current location status &nbsp;&nbsp;<span class="images" id="location-stat">&nbsp;&nbsp;&nbsp;&nbsp;</span></h5>
-                </div>
+    <div class="profile-container">
+        <span id="closePopup" class="close-popup">&times;</span>
+        <div class="user-info">
+            <div class="images avatar-mid">
+                {% if user.avatar %}
+                <img class="images avatar-mid" src="{{ url_for('user_views.static', filename=user.avatar) }}" alt="User Avatar">
+                {% else %}
+                <img class="images avatar-mid" src="{{ url_for('user_views.static', filename='images/icons8-avatar-96.png') }}">
+                {% endif %}
+                <span id="new-avatar" class="images"></span>
             </div>
-            <div class="bookline"></div>
-            <div class="locale-and-track-info" id="i-track">
-                <h5 class="line-heading">Friends who can see my location</h5>
-                <div class="i-track-disp-cont" id="tracking-me">
-                </div>
+            <div id="intro">
+                <h3 class="bookline">{{ user.full_name }}</h3>
+                <h4 class="fade bookline">@{{ user.username }}</h4>
+                <h5 class="bookline red">{{ user.email }}</h5>
+                <h5 class="bookline">Current location status &nbsp;&nbsp;<span class="images" id="location-stat">&nbsp;&nbsp;&nbsp;&nbsp;</span></h5>
             </div>
-            <div class="locale-and-track-info" id="i-track">
-                <h5 class="line-heading">Friends I can track</h5>
-                <div class="i-track-disp-cont" id="i-can-track">
-                </div>
+        </div>
+        <div class="bookline"></div>
+        <div class="locale-and-track-info" id="i-track">
+            <h5 class="line-heading">Friends who can see my location</h5>
+            <div class="i-track-disp-cont" id="tracking-me">
             </div>
-            <div class="del-user">Delete account</div>
-            <div class="upload-box" id="upload-container">
-                <div id="form-caption" style="color: #FFB84C;">Upload your avatar</div>
-                <form action="{{ url_for('user_views.upload_file') }}" method=post enctype=multipart/form-data>
-                    <input id="browse" type=file name=file>
-                    <input id="upload" type=submit value=Upload>
-                </form>
-                <button id="cancel">cancel</button>
+        </div>
+        <div class="locale-and-track-info" id="i-track">
+            <h5 class="line-heading">Friends I can track</h5>
+            <div class="i-track-disp-cont" id="i-can-track">
             </div>
+        </div>
+        <div class="del-user">Delete account</div>
+        <div class="upload-box" id="upload-container">
+            <div id="form-caption" style="color: #FFB84C;">Upload your avatar</div>
+            <form action="{{ url_for('user_views.upload_file') }}" method=post enctype=multipart/form-data>
+                <input id="browse" type=file name=file>
+                <input id="upload" type=submit value=Upload>
+            </form>
+            <button id="cancel">cancel</button>
         </div>
     </div>
 
@@ -207,13 +114,6 @@
     <div class="section-container">
         <section class="friend-section">
             <label id="friendlabel">My Friends</label>
-            <div class="mob-add-friend-box">
-                <div class="images mobile" id="add-icon" title="Add a friend"></div>
-                <div class="input-cont">
-                    <input class="mobile" id="add-friend-input" type="search" placeholder="username/email of new friend" style="display: none;">
-                    <div class="label-btn">Add</div>
-                </div>
-            </div>
             <input id="searchbox" type="text" placeholder="search friend">
             <div class="friendlist"></div>
         </section>
@@ -238,7 +138,6 @@
             </div>
         </section>
         <section class="map-section">
-            <div class="mobile-close-btn close-popup">&times;</div>
             <div id="legend" style="display: none;">
                 <div id="user-locale">
                     <div class="images" id="my-location-thumb"></div>
