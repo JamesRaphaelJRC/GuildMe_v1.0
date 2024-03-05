@@ -14,8 +14,8 @@ from dotenv import load_dotenv
 
 
 # load .env
-load_dotenv()
-uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
+# load_dotenv()
+# uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
 
 
 OBJECT_TYPES = Union[TypeVar('User'), TypeVar('Conversation')]
@@ -38,6 +38,7 @@ class DB:
     '''
     def __init__(self) -> None:
         ''' Initialize new DB instance '''
+        uri = "mongodb+srv://jamesraphaeljrc:1HQBZCmknGU29f6i@guildme.vul6smp.mongodb.net/?retryWrites=true&w=majority&appName=guildme"
         self._client = MongoClient(uri)
         # self._client = MongoClient('mongodb://localhost:27017')
         self._users = self._client.test_db.users
