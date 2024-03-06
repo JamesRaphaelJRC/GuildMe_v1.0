@@ -8,9 +8,11 @@ $(document).ready(() => {
   let geoLocationId;
   let intervalId;
   let userLatLong;
+  let userMarker;
   const legend = $('#legend');
   let friend;
   let stoppedSpinning = false;
+  let customFriendIcon;
 
   $('#pincher').draggable({
     containment: 'parent', // Restrict dragging within the container
@@ -36,7 +38,12 @@ $(document).ready(() => {
 
   function showUserOnMap() {
     createMap();
-    const userMarker = L.marker(userLatLong, { id: 'user-marker' });
+    if (userMarker) {
+      userMarker.remove(); // remove the old marker and update with current user location
+      userMarker = L.marker(userLatLong, { id: 'user-marker' });
+    } else {
+      userMarker = L.marker(userLatLong, { id: 'user-marker' });
+    }
 
     // Check if the map already has the user marker
     if (map && userMarker && !map.hasLayer(userMarker)) {
@@ -125,11 +132,13 @@ $(document).ready(() => {
         navigator.geolocation.clearWatch(geoLocationId);
       }
 
-      const customFriendIcon = L.icon({
-        iconUrl: 'static/images/user_destination.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-      });
+      if (!customFriendIcon) { // creates an icon for friend once
+        customFriendIcon = L.icon({
+          iconUrl: 'static/images/user_destination.png',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        });
+      }
 
       // Set new waypoints if routing control already exists [to avoid duplicity of route direction]
       if (routingControl) {
