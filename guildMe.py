@@ -22,7 +22,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app, resources={r"backend/api/v1/*": {"origins": "*"}})
 
 # Initialize flask app with SockeIO
-socket_io.init_app(app, async_mode='gevent', cors_allowed_origins="*")
+socket_io.init_app(app, async_mode='eventlet', cors_allowed_origins="*")
 
 # Set global strict slashes
 app.url_map.strict_slashes = False
