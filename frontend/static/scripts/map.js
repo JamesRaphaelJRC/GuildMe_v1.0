@@ -132,13 +132,11 @@ $(document).ready(() => {
         navigator.geolocation.clearWatch(geoLocationId);
       }
 
-      if (!customFriendIcon) { // creates an icon for friend once
-        customFriendIcon = L.icon({
-          iconUrl: 'static/images/user_destination.png',
-          iconSize: [32, 32],
-          iconAnchor: [16, 32],
-        });
-      }
+      customFriendIcon = L.icon({
+        iconUrl: 'static/images/user_destination.png',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+      });
 
       // Clear existing markers from the layer group
       markersLayer.clearLayers();
