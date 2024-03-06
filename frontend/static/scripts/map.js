@@ -13,6 +13,7 @@ $(document).ready(() => {
   let friend;
   let stoppedSpinning = false;
   let customFriendIcon;
+  const markersLayer = L.layerGroup().addTo(map);
 
   $('#pincher').draggable({
     containment: 'parent', // Restrict dragging within the container
