@@ -13,7 +13,6 @@ $(document).ready(() => {
   let friend;
   let stoppedSpinning = false;
   let customFriendIcon;
-  const markersLayer = L.layerGroup().addTo(map);
 
   $('#pincher').draggable({
     containment: 'parent', // Restrict dragging within the container
@@ -133,22 +132,13 @@ $(document).ready(() => {
         navigator.geolocation.clearWatch(geoLocationId);
       }
 
-      customFriendIcon = L.icon({
-        iconUrl: 'static/images/user_destination.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-      });
-
-      // Clear existing markers from the layer group
-      markersLayer.clearLayers();
-
-      // Add the user marker to the layer group
-      const userMarker = L.marker([userLat, userLong]);
-      markersLayer.addLayer(userMarker);
-
-      // Add the friend marker to the layer group with custom icon
-      const friendMarker = L.marker([friendLat, friendLong], { icon: customFriendIcon });
-      markersLayer.addLayer(friendMarker);
+      if (!customFriendIcon) { // creates an icon for friend once
+        customFriendIcon = L.icon({
+          iconUrl: 'static/images/user_destination.png',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        });
+      }
 
       // Set new waypoints if routing control already exists [to avoid duplicity of route direction]
       if (routingControl) {
@@ -171,9 +161,18 @@ $(document).ready(() => {
             styles: [{ color: 'gray', opacity: 0.5, weight: 9 }],
             addWaypoints: false,
           },
+          createMarker(i, waypoint, n) {
+            let marker = L.marker(waypoint.latLng);
+
+            if (i === n - 1) {
+              marker = L.marker(waypoint.latLng, {
+                icon: customFriendIcon,
+              });
+            }
+
+            return marker;
+          },
         }).addTo(map);
-        // Add the routing control to the layer group
-        markersLayer.addLayer(routingControl);
       }
     }
     $('.map-section .loading-spinner').hide(); // hide loading spin
