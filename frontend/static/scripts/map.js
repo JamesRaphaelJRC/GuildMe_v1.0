@@ -173,6 +173,8 @@ $(document).ready(() => {
             addWaypoints: false,
           },
         }).addTo(map);
+        // Add the routing control to the layer group
+        markersLayer.addLayer(routingControl);
       }
     }
     $('.map-section .loading-spinner').hide(); // hide loading spin
