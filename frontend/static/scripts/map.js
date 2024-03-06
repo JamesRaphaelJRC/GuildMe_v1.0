@@ -140,6 +140,17 @@ $(document).ready(() => {
         });
       }
 
+      // Clear existing markers from the layer group
+      markersLayer.clearLayers();
+
+      // Add the user marker to the layer group
+      const userMarker = L.marker([userLat, userLong]);
+      markersLayer.addLayer(userMarker);
+
+      // Add the friend marker to the layer group with custom icon
+      const friendMarker = L.marker([friendLat, friendLong], { icon: customFriendIcon });
+      markersLayer.addLayer(friendMarker);
+
       // Set new waypoints if routing control already exists [to avoid duplicity of route direction]
       if (routingControl) {
         routingControl.setWaypoints([
@@ -160,17 +171,6 @@ $(document).ready(() => {
           altLineOptions: {
             styles: [{ color: 'gray', opacity: 0.5, weight: 9 }],
             addWaypoints: false,
-          },
-          createMarker(i, waypoint, n) {
-            let marker = L.marker(waypoint.latLng);
-
-            if (i === n - 1) {
-              marker = L.marker(waypoint.latLng, {
-                icon: customFriendIcon,
-              });
-            }
-
-            return marker;
           },
         }).addTo(map);
       }
