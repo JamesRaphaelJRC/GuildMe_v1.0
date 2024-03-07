@@ -1,10 +1,8 @@
 # GuildMe - Simplify Location-Sharing, Enhance Connections
 
-![Black logo - no background](https://github.com/JamesRaphaelJRC/SupplyTrackPlus_v1/assets/122796226/d0daf6e2-3aca-45a0-a46f-edb3a0c001e1)
-
 
 ## Introduction:
-[SupplyTrackPlus](https://supplytrackplus.me)
+[GuildMe](https://guildme-d24dc417e622.herokuapp.com/)
 
 Welcome to GuildMe, a revolutionary platform designed to streamline location-sharing and elevate your connections with friends and family. Our web application enables real-time location sharing, providing a seamless way to coordinate meet-ups, stay connected, and prioritize safety.
 
