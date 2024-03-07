@@ -1,5 +1,7 @@
 # GuildMe - Simplify Location-Sharing, Enhance Connections
 
+![Screenshot 2024-03-07 at 09-58-11 GuildMe-Home](https://github.com/JamesRaphaelJRC/GuildMe_v1.0/assets/122796226/7592748e-f40f-44d7-af49-cfb3eb94c24b)
+
 
 ## Introduction:
 [GuildMe](https://guildme-d24dc417e622.herokuapp.com/)
